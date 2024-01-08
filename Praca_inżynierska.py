@@ -40,6 +40,7 @@ class Canvas:
         # Clear the plot in the canvas
         self.ax.clear()
 
+
 # WavFileHandler class handles reading audio data from a WAV file
 class WavFileHandler:
     def __init__(self, file):
@@ -49,8 +50,8 @@ class WavFileHandler:
         # Read the WAV file and return time axis and audio data
         sampling_rate, data = wavfile.read(self.file)
         duration = len(data) / sampling_rate
-        time_axis = np.linspace(0., duration, len(data))
-        return data, time_axis
+        time_axis = np.linspace(0, duration, len(data))
+        return data, time_axis, sampling_rate
 
 
 # AxisHandler class manages generating different time and frequency axes
@@ -90,32 +91,25 @@ class TransformAnalyzer:
     def __init__(self, signal):
         self.signal = signal
 
-    def calculate_fft(self, data):
-        # Create an AxisHandler instance to generate frequency axis
-        axis = AxisHandler(data)
-        fft_x_axis = axis.generate_frequency_axis()
+    def calculate_fft(self):
         # Perform FFT on the signal and return the result
         fft_data = fft(self.signal)
-        return fft_x_axis, fft_data
+        return fft_data
 
-    @staticmethod
-    def calculate_ifft(fft_function):
+    def calculate_ifft(self):
         # Perform IFFT on the given FFT function and return the result
-        ifft_data = ifft(fft_function)
+        ifft_data = ifft(self.signal)
         return ifft_data
 
-    def calculate_dct(self, data):
+    def calculate_dct(self):
         # Create an AxisHandler instance to generate frequency axis
-        axis = AxisHandler(data)
-        dct_x_axis = axis.generate_frequency_axis()
         # Perform DCT on the signal with normalization and return the result
         dct_data = dct(self.signal, norm='ortho')
-        return dct_x_axis, dct_data
+        return dct_data
 
-    @staticmethod
-    def calculate_idct(dct_function):
+    def calculate_idct(self):
         # Perform IDCT on the given DCT function with normalization and return the result
-        idct_data = idct(dct_function, norm='ortho')
+        idct_data = idct(self.signal, norm='ortho')
         return idct_data
 
 
@@ -165,15 +159,13 @@ class Model:
 
     def add_signal(self, data):
         # Add a new signal to the list based on user input
-        self.signals.append(Signal(data['amplitude'][self.signals_amount], data['frequency'][self.signals_amount],
-                                   data['phase'][self.signals_amount]))
-        self.signals_amount += 1
+        if data:
+            self.signals.append(Signal(data['amplitude'][self.signals_amount], data['frequency'][self.signals_amount],
+                                       data['phase'][self.signals_amount]))
+            self.signals_amount += 1
 
-    def generate_wave(self, data):
+    def generate_wave(self, time_axis, discrete_time_axis):
         # Generate a composite wave based on the added signals
-        axis = AxisHandler(data)
-        time_axis = axis.generate_time_axis()
-        discrete_time_axis = axis.generate_discrete_time_axis()
         wave = np.zeros(len(time_axis))
         sampled_wave = np.zeros(len(discrete_time_axis))
 
@@ -182,36 +174,40 @@ class Model:
             wave += signal.amplitude * np.sin(2 * np.pi * signal.frequency * time_axis + np.deg2rad(signal.phase))
             sampled_wave += signal.amplitude * np.sin(2 * np.pi * signal.frequency * discrete_time_axis
                                                       + np.deg2rad(signal.phase))
-        return time_axis, discrete_time_axis, wave, sampled_wave
+        return wave, sampled_wave
 
-    def generate_wave_from_file(self, file):
+    @staticmethod
+    def generate_wave_from_file(file):
         # Read audio data from a WAV file and return sampling frequency and data
         file_handler = WavFileHandler(file)
-        sampling_frequency, data = file_handler.get_audio_data()
-        return sampling_frequency, data
+        data, time_axis, sampling_frequency = file_handler.get_audio_data()
+        return data, time_axis, sampling_frequency
 
-    def generate_fft(self, axis_data, wave):
+    @staticmethod
+    def generate_fft(wave):
         # Calculate FFT of the sampled wave and return the result
         fft_analyzer = TransformAnalyzer(wave)
-        fft_axis, fft_data = fft_analyzer.calculate_fft(axis_data)
-        return fft_axis, fft_data
+        fft_data = fft_analyzer.calculate_fft()
+        return fft_data
 
     @staticmethod
     def generate_ifft(fft_function):
-        # Calculate IFFT of the given FFT function and return the result
-        ifft_data = TransformAnalyzer.calculate_ifft(fft_function)
+        ifft_analyzer = TransformAnalyzer(fft_function)
+        ifft_data = ifft_analyzer.calculate_ifft()
         return ifft_data
 
-    def generate_dct(self, axis_data, wave):
+    @staticmethod
+    def generate_dct(wave):
         # Calculate DCT of the sampled wave and return the result
         dct_analyzer = TransformAnalyzer(wave)
-        dct_x_axis, dct_data = dct_analyzer.calculate_dct(axis_data)
-        return dct_x_axis, dct_data
+        dct_data = dct_analyzer.calculate_dct()
+        return dct_data
 
     @staticmethod
     def generate_idct(dct_function):
         # Calculate IDCT of the given DCT function and return the result
-        idct_data = TransformAnalyzer.calculate_idct(dct_function)
+        idct_analyzer = TransformAnalyzer(dct_function)
+        idct_data = idct_analyzer.calculate_idct()
         return idct_data
 
 
@@ -233,7 +229,7 @@ class Controller:
         phase_text = self.view.phase_edit.text()
 
         if not (amplitude_text and frequency_text and phase_text):
-            View.print_error("Wprowadz wszystkie dane")
+            View.print_error("Enter all the data required")
             return None
 
         self.amplitude.append(float(amplitude_text))
@@ -253,11 +249,6 @@ class Controller:
         sampling_frequency_text = self.view.sampling_frequency_edit.text()
         samples_number_text = self.view.samples_number_edit.text()
 
-        if not (time_step_text and sampling_frequency_text and samples_number_text):
-            View.print_error("Wprowadz wszystkie dane")
-            return None
-
-        # Check if data is greater than zero before converting to float
         try:
             time_step = float(time_step_text)
             sampling_frequency = float(sampling_frequency_text)
@@ -272,32 +263,52 @@ class Controller:
                 }
                 return data
             else:
-                View.print_error("Wszystkie dane muszą być większe niż zero")
+                View.print_error("Every variable has to be greater than zero")
                 return None
 
         except ValueError:
-            View.print_error("Nieprawidłowy format danych. Wprowadź liczby.")
-            return None
+            View.print_error("Wrong data format. Please enter numbers only")
 
     def handle_update_button(self):
         # Handle the update button click event
-        self.view.clear_canvas()
+
+        self.view.clear_canvas()  # clear all plots
+
+        # if data exists collect data and create time and frequency axis
         data = self.collect_axis_data()
-        time_axis, discrete_time_axis, wave, sampled_wave = self.model.generate_wave(data)
-        if self.view.wave_from_file.isChecked():
-            wave, time_axis = self.model.generate_wave_from_file(self.filename)
-        self.view.update_canvas('signal', time_axis, wave, 'Original signal', 'plot', 'Time',
-                                'Amplitude')
-        fft_x_data, fft_data = self.model.generate_fft(data, sampled_wave)
-        self.view.update_canvas('fft', fft_x_data, abs(fft_data), 'abs(FFT)', 'stem', 'Frequency',
-                                'Amplitude')
-        ifft_data = self.model.generate_ifft(fft_data)
-        self.view.update_canvas('ifft', discrete_time_axis, np.real(ifft_data), 'Inverse FFT', 'stem', 'Time',
-                                'Amplitude')
-        dct_axis_data, dct_data = self.model.generate_dct(data, sampled_wave)
-        self.view.update_canvas('dct', dct_axis_data, dct_data, 'DCT', 'stem', 'Frequency', 'Magnitude')
-        idct_data = self.model.generate_idct(dct_data)
-        self.view.update_canvas('idct', discrete_time_axis, np.real(idct_data), 'IDCT', 'stem', 'Time', 'Amplitude')
+        if data:
+            axis_handler = AxisHandler(data)
+            time_axis = axis_handler.generate_time_axis()
+            frequency_axis = axis_handler.generate_frequency_axis()
+            discrete_time_axis = axis_handler.generate_discrete_time_axis()
+            # if radio button is checked - collect and calculate data for audio file
+            # else do calculations for chosen signal
+            if self.view.wave_from_file.isChecked():
+                wave, time_axis, file_sampling_frequency = self.model.generate_wave_from_file(self.filename)
+                axis_handler.sampling_frequency = file_sampling_frequency
+                axis_handler.samples_number = len(wave)
+                frequency_axis = axis_handler.generate_frequency_axis()
+                fft_data = self.model.generate_fft(wave)
+                ifft_data = self.model.generate_ifft(fft_data)
+                dct_data = self.model.generate_dct(wave)
+                idct_data = self.model.generate_idct(dct_data)
+                discrete_time_axis = time_axis
+            else:
+                wave, sampled_wave = self.model.generate_wave(time_axis, discrete_time_axis)
+                fft_data = self.model.generate_fft(sampled_wave)
+                ifft_data = self.model.generate_ifft(fft_data)
+                dct_data = self.model.generate_dct(sampled_wave)
+                idct_data = self.model.generate_idct(dct_data)
+
+            # graph all the plots
+            self.view.update_canvas('signal', time_axis, wave, 'Original signal', 'plot', 'Time',
+                                    'Amplitude')
+            self.view.update_canvas('fft', frequency_axis, abs(fft_data), 'abs(FFT)', 'stem', 'Frequency',
+                                    'Amplitude')
+            self.view.update_canvas('ifft', discrete_time_axis, np.real(ifft_data), 'Inverse FFT', 'stem', 'Time',
+                                    'Amplitude')
+            self.view.update_canvas('dct', frequency_axis, dct_data, 'DCT', 'stem', 'Frequency', 'Amplitude')
+            self.view.update_canvas('idct', discrete_time_axis, np.real(idct_data), 'IDCT', 'stem', 'Time', 'Amplitude')
 
     def handle_choose_file_button(self):
         # Handle the choose file button click event
@@ -307,7 +318,7 @@ class Controller:
         file_dialog.setOptions(options)
 
         # Set file dialog properties, if needed
-        file_dialog.setNameFilter("Wave files (*.wav);;All files (*)")
+        file_dialog.setNameFilter("Wav files (*.wav);;All files (*)")
         file_dialog.setViewMode(QFileDialog.Detail)
 
         # Show the dialog and get the selected file(s)
@@ -326,15 +337,47 @@ class Controller:
     def handle_add_button(self):
         # Handle the add button click event
         data = self.collect_signal_data()
-        signal_number = self.model.signals_amount
-        self.model.add_signal(data)
-        # Retrieve the existing text from the label
-        existing_text = self.view.signal_label.toPlainText()
-        # Add information about the new signal
-        text = (f"{existing_text}\n{data['amplitude'][signal_number]}sin(2*π*t*{data['frequency'][signal_number]}"
-                f"+{data['phase'][signal_number]}°)+")
-        # Update the label with the new text
-        self.view.signal_label.setPlainText(text)
+        if data:
+            signal_number = self.model.signals_amount
+            self.model.add_signal(data)
+            # Retrieve the existing text from the label
+            existing_text = self.view.signal_label.toPlainText()
+            # Add information about the new signal
+            text = (f"{existing_text}\n{data['amplitude'][signal_number]}sin(2*π*t*{data['frequency'][signal_number]}"
+                    f"+{data['phase'][signal_number]}°)+")
+            # Update the label with the new text
+            self.view.signal_label.setPlainText(text)
+
+    def collect_signal_number(self):
+        signal_number_text = self.view.signal_number_edit.text()
+        signals_amount = self.model.signals_amount
+        try:
+            signal_number = int(signal_number_text)
+            if 0 > signal_number > signals_amount:
+                View.print_error("Signal number has to be greater than zero and less than amount of signals")
+                return None
+            else:
+                return signal_number
+
+        except ValueError:
+            View.print_error("Wrong data format. Please enter numbers only")
+
+    def handle_delete_signal_button(self):
+        signal_number = self.collect_signal_number()
+        self.model.signals.pop(signal_number - 1)
+
+'''
+    def update_signal_values(self):
+        signal_number = self.collect_signal_number()
+        data = self.collect_signal_data()
+        if data:
+            amplitude = data['amplitude']
+            frequency = data['frequency']
+            phase = data['phase']
+            signal_to_edit = self.model.signals[signal_number - 1]
+            signal_to_edit.amplitude = amplitude
+            signal_to_edit.frequency = frequency
+            signal_to_edit.phase = phase'''
 
 
 # Application class representing the main application
@@ -351,8 +394,13 @@ class App(QApplication):
         self.view.add_button.clicked.connect(self.controller.handle_add_button)
         self.view.sampling_frequency_edit.valueChanged.connect(self.controller.handle_update_button)
         self.view.samples_number_edit.valueChanged.connect(self.controller.handle_update_button)
+        self.view.amplitude_edit.valueChanged.connect(self.controller.handle_update_button)
+     #   self.view.amplitude_edit.valueChanged.connect(self.controller.update_signal_values)
+        self.view.frequency_edit.valueChanged.connect(self.controller.handle_update_button)
+        self.view.phase_edit.valueChanged.connect(self.controller.handle_update_button)
         self.view.choose_file_button.clicked.connect(self.controller.handle_choose_file_button)
         self.view.update_button.clicked.connect(self.controller.handle_update_button)
+        self.view.delete_signal_button.clicked.connect(self.controller.handle_delete_signal_button)
 
         # Show the main window
         self.view.show()
