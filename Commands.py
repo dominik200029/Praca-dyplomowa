@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from Signal import Signal
 
 
 class Command(ABC):
@@ -14,50 +13,40 @@ class Command(ABC):
 class AddSignalCommand(Command):
     def __init__(self, receiver, signals_handler, gui, controller):
         super().__init__(receiver)
-        self.receiver = receiver
         self.signals_handler = signals_handler
         self.gui = gui
         self.controller = controller
 
     def execute(self):
-        data = self.controller.collect_signal_data()
-        if data:
-            signal = Signal(data['amplitude'], data['frequency'], data['phase'])
-            self.receiver.add_signal_to_list(self.signals_handler, signal)
-            self.gui.update_signals_label(self.signals_handler.signals_labels)
+        self.receiver.add_signal_to_list(self.signals_handler, self.controller)
+        self.gui.update_label(self.gui.signal_label, self.signals_handler.get_text())
 
 
 class UpdatePlotsCommand(Command):
-    def __init__(self, receiver, signals_handler, gui, controller):
+    def __init__(self, receiver, signals_handler, gui, controller, canvas):
         super().__init__(receiver)
-        self.receiver = receiver
         self.signals_handler = signals_handler
         self.gui = gui
         self.controller = controller
+        self.canvas = canvas
 
     def execute(self):
-        data = self.controller.collect_axis_data()
-        if data:
-            if self.gui.wave_from_file.isChecked():
-                self.receiver.update_plots_from_file(self.controller.filename, self.signals_handler, data, self.gui)
-            else:
-                self.receiver.update_plots(self.gui, data, self.signals_handler)
+        if self.gui.wave_from_file.isChecked():
+            self.receiver.update_plots_from_file(self.controller, self.signals_handler, self.canvas)
+        else:
+            self.receiver.update_plots(self.controller, self.signals_handler, self.canvas)
 
 
 class DeleteSignalCommand(Command):
     def __init__(self, receiver, signals_handler, gui, controller):
         super().__init__(receiver)
-        self.receiver = receiver
         self.controller = controller
         self.signals_handler = signals_handler
         self.gui = gui
 
     def execute(self):
-        data = self.controller.collect_signal_number()
-        if data:
-            element_index = data - 1
-            self.receiver.delete_signal(self.signals_handler, element_index)
-            self.gui.update_signals_label(self.signals_handler.signals_labels)
+        self.receiver.delete_signal(self.signals_handler, self.controller)
+        self.gui.update_label(self.gui.signal_label, self.signals_handler.get_text())
 
 
 class UpdateSignalCommand(Command):
@@ -69,20 +58,23 @@ class UpdateSignalCommand(Command):
         self.controller = controller
 
     def execute(self):
-        signal_number = self.controller.collect_signal_number()
-        data = self.controller.collect_signal_data()
-        if signal_number and data:
-            signal_index = signal_number - 1
-            self.receiver.update_signal(self.signals_handler, data, signal_index)
-            self.gui.update_signals_label(self.signals_handler.signals_labels)
+        self.receiver.update_signal(self.signals_handler, self.controller)
+        self.gui.update_label(self.gui.signal_label, self.signals_handler.get_text())
 
 
 class ChooseFileCommand(Command):
-    def __init__(self, receiver, gui, controller):
+    def __init__(self, receiver, gui):
         super().__init__(receiver)
-        self.receiver = receiver
         self.gui = gui
-        self.controller = controller
 
     def execute(self):
-        self.receiver.choose_file(self.gui, self.controller)
+        self.receiver.choose_file(self.gui)
+
+
+class CreateWindowCommand(Command):
+    def __init__(self, receiver, name):
+        super().__init__(receiver)
+        self.name = name
+
+    def execute(self):
+        self.receiver.create_figure(self.name)

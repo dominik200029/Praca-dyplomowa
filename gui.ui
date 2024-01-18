@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1497</width>
-    <height>1070</height>
+    <height>1140</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -74,6 +74,35 @@
             <property name="verticalSpacing">
              <number>7</number>
             </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_9">
+              <property name="font">
+               <font>
+                <family>Century Gothic</family>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <italic>true</italic>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+font: 75 italic bold 12pt &quot;Century Gothic&quot;;}</string>
+              </property>
+              <property name="text">
+               <string>DANE SYGNAŁU</string>
+              </property>
+              <property name="textFormat">
+               <enum>Qt::PlainText</enum>
+              </property>
+              <property name="scaledContents">
+               <bool>false</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignHCenter|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
             <item row="1" column="0">
              <widget class="QFrame" name="frame_2">
               <property name="styleSheet">
@@ -156,6 +185,9 @@ sygnału[Hz]:</string>
     padding: 1px;
 }</string>
                  </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
                  <property name="maximum">
                   <number>100000</number>
                  </property>
@@ -189,6 +221,9 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
     /* Padding */
     padding: 1px;
 }</string>
+                 </property>
+                 <property name="minimum">
+                  <number>-10000</number>
                  </property>
                  <property name="maximum">
                   <number>100000</number>
@@ -232,6 +267,9 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
     padding: 1px;
 }</string>
                  </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
                  <property name="maximum">
                   <number>100000</number>
                  </property>
@@ -266,6 +304,9 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
     padding: 1px;
 }</string>
                  </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
                  <property name="maximum">
                   <number>1000</number>
                  </property>
@@ -276,6 +317,9 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                </item>
                <item row="10" column="0">
                 <widget class="QPushButton" name="add_button">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dodaj składową sygnału z powyższych danych&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">QPushButton {
     /* Set the default appearance for the push button */
@@ -327,7 +371,7 @@ QPushButton:pressed {
                <item row="12" column="0">
                 <widget class="QLabel" name="label_5">
                  <property name="toolTip">
-                  <string>Krok między kolejnymi wartościami w zestawie danych</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Krok między kolejnymi wartościami w zestawie danych osi OX&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="styleSheet">
                   <string notr="true">QLabel{
@@ -413,6 +457,9 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                </item>
                <item row="16" column="0">
                 <widget class="QPushButton" name="delete_signal_button">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Usuń daną składową sygnału&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">QPushButton {
     /* Set the default appearance for the push button */
@@ -468,7 +515,7 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  </property>
                 </widget>
                </item>
-               <item row="19" column="0">
+               <item row="22" column="0">
                 <widget class="QTextEdit" name="file_name">
                  <property name="styleSheet">
                   <string notr="true">QTextEdit {
@@ -494,38 +541,11 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  </property>
                 </widget>
                </item>
-               <item row="21" column="0">
-                <widget class="QPushButton" name="choose_file_button">
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton {
-    /* Set the default appearance for the push button */
-    background-color: #3498db;
-    border: 2px solid #3498db;
-    border-radius: 5px;
-    color: #fff;
-    padding: 8px 16px;
-    font-weight: bold;
-}
-
-QPushButton:hover {
-    /* Change style when the mouse hovers over the button */
-    background-color: #207dbb;
-    border: 2px solid #207dbb;
-}
-
-QPushButton:pressed {
-    /* Change style when the button is pressed */
-    background-color: #266197;
-    border: 2px solid #266197;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Wybierz plik</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="22" column="0" colspan="2">
+               <item row="31" column="0" colspan="2">
                 <widget class="QPushButton" name="print_button">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Aktualizuj wykresy wprowadzonymi danymi&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">QPushButton {
     /* Set the default appearance for the push button */
@@ -554,36 +574,172 @@ QPushButton:pressed {
                  </property>
                 </widget>
                </item>
+               <item row="27" column="0" colspan="2">
+                <widget class="QPushButton" name="dft_button">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż okno z wykresem DFT&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>DFT</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="29" column="0" colspan="2">
+                <widget class="QPushButton" name="dct_button">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż okno z wykresem DCT&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>DCT</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="26" column="0">
+                <widget class="QPushButton" name="choose_file_button">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Otwórz eksplorator plików w celu wyboru pliku&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Wybierz plik</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="28" column="0" colspan="2">
+                <widget class="QPushButton" name="idft_button">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż okno z wykresem IDFT&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>IDFT</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="30" column="0" colspan="2">
+                <widget class="QPushButton" name="idct_button">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż okno z wykresem IDCT&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>IDCT</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_9">
-              <property name="font">
-               <font>
-                <family>Century Gothic</family>
-                <pointsize>12</pointsize>
-                <weight>75</weight>
-                <italic>true</italic>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel{
-font: 75 italic bold 12pt &quot;Century Gothic&quot;;}</string>
-              </property>
-              <property name="text">
-               <string>DANE SYGNAŁU</string>
-              </property>
-              <property name="textFormat">
-               <enum>Qt::PlainText</enum>
-              </property>
-              <property name="scaledContents">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignHCenter|Qt::AlignTop</set>
-              </property>
              </widget>
             </item>
            </layout>
@@ -594,32 +750,6 @@ font: 75 italic bold 12pt &quot;Century Gothic&quot;;}</string>
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
            </layout>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="tab_3">
-         <attribute name="title">
-          <string>Dyskretna Transformata Fouriera</string>
-         </attribute>
-         <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0">
-           <layout class="QGridLayout" name="layout2"/>
-          </item>
-          <item row="0" column="1">
-           <layout class="QGridLayout" name="layout3"/>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="tab">
-         <attribute name="title">
-          <string>Dyskretna Transformata Kosinusowa</string>
-         </attribute>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="0">
-           <layout class="QVBoxLayout" name="layout4"/>
-          </item>
-          <item row="0" column="1">
-           <layout class="QVBoxLayout" name="layout5"/>
           </item>
          </layout>
         </widget>

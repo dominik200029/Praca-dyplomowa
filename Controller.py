@@ -1,71 +1,131 @@
-from Gui import Gui
-
-""" Class responsible for collecting data from user """
-
-
 class Controller:
-    def __init__(self, view, signal_handler):
-        # Initialize the model, view, and lists to store signal parameters
-        self.view = view
-        self.signal_handler = signal_handler
-        self.filename = ''
+    """
+    Controller class for handling input from the GUI.
 
-    def collect_signal_data(self):
-        # Collect amplitude, frequency, and phase data from the user input
-        amplitude_text = self.view.amplitude_edit.text()
-        frequency_text = self.view.frequency_edit.text()
-        phase_text = self.view.phase_edit.text()
+    Attributes:
+        gui: The GUI instance.
 
-        if not (amplitude_text and frequency_text and phase_text):
-            Gui.print_error("Enter all the data required")
+    Methods:
+        get_from_line_edit(line_edit, error_message): Get a  value from a QLineEdit.
+        get_amplitude(): Get the amplitude from the GUI.
+        get_frequency(): Get the frequency from the GUI.
+        get_phase(): Get the phase from the GUI.
+        get_time_step(): Get the time step from the GUI.
+        get_sampling_frequency(): Get the sampling frequency from the GUI.
+        get_samples_number(): Get the number of samples from the GUI.
+        get_signal_number(): Get the signal number from the GUI.
+        get_filename(): Get the filename from the GUI.
+    """
+
+    def __init__(self, gui):
+        """
+        Initialize the Controller instance.
+
+        Parameters:
+            gui: The GUI instance.
+        """
+        self.gui = gui
+        self.figure = None
+
+    def get_from_line_edit(self, line_edit, error_message, value):
+        """
+        Get a float value from a QLineEdit.
+
+        Parameters:
+            line_edit: The QLineEdit widget.
+            error_message: The error message to be displayed if the input is not valid.
+            value: 'float' or 'int' depends on the variable to return
+
+        Returns:
+            float or int or None: The float value if value == float, int if value == int, or None if there was an error.
+        """
+        text = line_edit.text()
+        if text:
+            try:
+                if value == 'float':
+                    return float(text)
+                elif value == 'int':
+                    return int(text)
+                else:
+                    raise ValueError
+            except ValueError:
+                self.gui.print_error('Invalid input. Please enter a valid number.')
+        else:
+            self.gui.print_error(error_message)
+
+    def get_amplitude(self):
+        """
+        Get the amplitude from the GUI.
+
+        Returns:
+            float or None: The amplitude if successful, or None if there was an error.
+        """
+        return self.get_from_line_edit(self.gui.amplitude_edit, 'Enter amplitude', 'float')
+
+    def get_frequency(self):
+        """
+        Get the frequency from the GUI.
+
+        Returns:
+            float or None: The frequency if successful, or None if there was an error.
+        """
+        return self.get_from_line_edit(self.gui.frequency_edit, 'Enter frequency', 'float')
+
+    def get_phase(self):
+        """
+        Get the phase from the GUI.
+
+        Returns:
+            float or None: The phase if successful, or None if there was an error.
+        """
+        return self.get_from_line_edit(self.gui.phase_edit, 'Enter phase', 'float')
+
+    def get_time_step(self):
+        """
+        Get the time step from the GUI.
+
+        Returns:
+            float or None: The time step if successful, or None if there was an error.
+        """
+        return self.get_from_line_edit(self.gui.time_step_edit, 'Enter time step', 'float')
+
+    def get_sampling_frequency(self):
+        """
+        Get the sampling frequency from the GUI.
+
+        Returns:
+            float or None: The sampling frequency if successful, or None if there was an error.
+        """
+        return self.get_from_line_edit(self.gui.sampling_frequency_edit, 'Enter sampling frequency', 'float')
+
+    def get_samples_number(self):
+        """
+        Get the number of samples from the GUI.
+
+        Returns:
+            float or None: The number of samples if successful, or None if there was an error.
+        """
+        return self.get_from_line_edit(self.gui.samples_number_edit, 'Enter samples number', 'int')
+
+    def get_signal_number(self):
+        """
+        Get the signal number from the GUI.
+
+        Returns:
+            float or None: The signal number if successful, or None if there was an error.
+        """
+        return self.get_from_line_edit(self.gui.signal_number_edit, 'Enter signal number', 'int')
+
+    def get_filename(self):
+        """
+        Get the filename from the GUI.
+
+        Returns:
+            str or None: The filename if successful, or None if there was an error.
+        """
+        filename = self.gui.file_name.toPlainText()
+        if filename:
+            return filename
+        else:
+            self.gui.print_error('Choose valid filename')
             return None
-
-        amplitude = float(amplitude_text)
-        frequency = float(frequency_text)
-        phase = float(phase_text)
-
-        data = {
-            'amplitude': amplitude,
-            'frequency': frequency,
-            'phase': phase
-        }
-        return data
-
-    def collect_axis_data(self):
-        # Collect time step, sampling frequency, and samples number data from the user input
-        time_step_text = self.view.time_step_edit.text()
-        sampling_frequency_text = self.view.sampling_frequency_edit.text()
-        samples_number_text = self.view.samples_number_edit.text()
-
-        try:
-            time_step = float(time_step_text)
-            sampling_frequency = float(sampling_frequency_text)
-            samples_number = int(samples_number_text)
-
-            # Check if all data is greater than zero
-            if time_step > 0 and sampling_frequency > 0 and samples_number > 0:
-                data = {
-                    'time_step': time_step,
-                    'sampling_frequency': sampling_frequency,
-                    'samples_number': samples_number
-                }
-                return data
-            else:
-                Gui.print_error("Every variable has to be greater than zero")
-                return None
-
-        except ValueError:
-            Gui.print_error("Wrong data format. Please enter numbers only")
-
-    def collect_signal_number(self):
-        signal_number_text = self.view.signal_number_edit.text()
-        signals_amount = self.signal_handler.signal_amount
-        try:
-            signal_number = int(signal_number_text)
-            if 0 > signal_number > signals_amount:
-                Gui.print_error("Signal number has to be greater than zero and less than amount of signals")
-                return None
-            else:
-                return signal_number
-        except ValueError:
-            Gui.print_error("Wrong data format. Please enter numbers only")
