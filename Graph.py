@@ -135,13 +135,35 @@ class StemPlot(Graph):
 
 
 class ImagePlot(Graph):
+    """
+    Class for creating an image plot.
+
+    Inherits from Graph.
+
+    Methods:
+    - create: Placeholder method for creating an image plot on a given figure.
+    - create_on_canvas: Create an image plot on a given canvas.
+    """
+
     def __init__(self, x, y, xlabel, ylabel, title):
         super().__init__(x, y, xlabel, ylabel, title)
 
     def create(self, figure):
+        """
+        Placeholder method for creating an image plot on a given figure.
+
+        Parameters:
+        - figure: matplotlib.figure.Figure, the figure on which the image plot will be created
+        """
         pass
 
     def create_on_canvas(self, canvas: Canvas):
+        """
+        Create an image plot on a given canvas.
+
+        Parameters:
+        - canvas: Canvas, the canvas on which the image plot will be created
+        """
         canvas.ax.imshow(self.y)
         canvas.ax.set_title(self.title)
         canvas.ax.axis('off')  # Turn off axis labels

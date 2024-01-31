@@ -100,7 +100,8 @@ class App(QApplication):
                                 self.create_dct_window_command)
         self.set_button_command(self.dft_window.reset_button, self.reset_fft_invoker, self.reset_fft_command)
         self.set_button_command(self.dct_window.reset_button, self.reset_dct_invoker, self.reset_dct_command)
-        self.set_button_command(self.main_window.delete_signal_button ,self.update_plots_invoker, self.update_plots_command)
+        self.set_button_command(self.main_window.delete_signal_button, self.update_plots_invoker,
+                                self.update_plots_command)
 
         # Connect edit lanes to commands
         self.set_edit_lane_command(self.main_window.sampling_frequency_edit, self.update_plots_invoker,

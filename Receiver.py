@@ -1,7 +1,4 @@
-import os
-
 import numpy as np
-from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QFileDialog
 
 from Graph import Plot, StemPlot, ImagePlot
