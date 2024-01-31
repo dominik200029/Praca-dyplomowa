@@ -4,6 +4,7 @@ from Canvas import Canvas
 from Controllers import MainWindowController, DFTWindowController, DCTWindowController
 from Invoker import Invoker
 from Receiver import Receiver
+from Receiver2D import Receiver2D
 from SignalsHandler import SineHandler, Sine2DHandler
 from Commands import (ChooseWavFileCommand, AddSignalCommand, DeleteSignalCommand, UpdateSignalCommand,
                       CreateWindowCommand, FilterFFTCommand, ResetFFTCommand, HandleFiltersListCommand,
@@ -35,10 +36,11 @@ class App(QApplication):
 
         # Business logic class
         self.receiver = Receiver()
+        self.receiver_2d = Receiver2D()
 
         # Commands
         self.choose_wav_file_command = ChooseWavFileCommand(self.receiver, self.main_window)
-        self.choose_jpg_file_command = ChooseJpgFileCommand(self.receiver, self.main_window)
+        self.choose_jpg_file_command = ChooseJpgFileCommand(self.receiver_2d, self.main_window)
         self.add_signal_command = AddSignalCommand(self.receiver, self.signals_handler, self.main_window)
         self.update_plots_command = UpdatePlotsCommand(self.receiver, self.signals_handler,
                                                        self.main_window, self.signal_canvas,
@@ -61,7 +63,7 @@ class App(QApplication):
                                                                          self.main_window, self.signal_canvas,
                                                                          self.dft_canvas, self.idft_canvas,
                                                                          self.dct_canvas, self.idct_canvas)
-        self.update_plots_from_jpg_file_command = UpdatePlotsFromJpgFileCommand(self.receiver, self.main_window,
+        self.update_plots_from_jpg_file_command = UpdatePlotsFromJpgFileCommand(self.receiver_2d, self.main_window,
                                                                                 self.signals_2d_handler,
                                                                                 self.signal_2d_canvas)
 
