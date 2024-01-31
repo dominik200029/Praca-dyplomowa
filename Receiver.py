@@ -21,6 +21,7 @@ class Receiver:
         self.filtered_ifft = None
         self.filtered_dct = None
         self.filtered_idct = None
+        self.is_signal_from_file = False
 
     @staticmethod
     def add_signal_to_list(signals_handler, controller):
@@ -66,9 +67,13 @@ class Receiver:
         sampled_signal_plot.create_on_canvas(canvas)
 
     def filtered_fft_plot(self, *canvases):
-        fft_plot = StemPlot(self.frequency_axis, np.abs(self.filtered_fft), 'Częstotliwość[Hz]', 'Amplituda',
-                            'abs(FFT)')
-        ifft_plot = StemPlot(self.discrete_time_axis, np.real(self.filtered_ifft), 'Czas[s]', 'Amplituda', 'IFFT')
+        if self.is_signal_from_file:
+            fft_plot = Plot(self.frequency_axis, np.abs(self.filtered_fft), 'Częstotliwość[Hz]', 'Amplituda', 'abs(FFT)')
+            ifft_plot = Plot(None, np.real(self.filtered_ifft), 'Czas[s]', 'Amplituda', 'IFFT')
+        else:
+            fft_plot = StemPlot(self.frequency_axis, np.abs(self.filtered_fft), 'Częstotliwość[Hz]', 'Amplituda',
+                                'abs(FFT)')
+            ifft_plot = StemPlot(self.discrete_time_axis, np.real(self.filtered_ifft), 'Czas[s]', 'Amplituda', 'IFFT')
 
         for canvas in canvases:
             canvas.clear()
@@ -77,9 +82,14 @@ class Receiver:
         ifft_plot.create_on_canvas(canvases[1])
 
     def filtered_dct_plot(self, *canvases):
-        dct_plot = StemPlot(self.frequency_axis, np.abs(self.filtered_dct), 'Częstotliwość[Hz]', 'Amplituda',
+        if self.is_signal_from_file:
+            dct_plot = Plot(self.frequency_axis, np.abs(self.filtered_dct), 'Częstotliwość[Hz]', 'Amplituda',
                             'abs(DCT)')
-        idct_plot = StemPlot(self.discrete_time_axis, np.real(self.filtered_idct), 'Czas[s]', 'Amplituda', 'IDCT')
+            idct_plot = Plot(None, np.real(self.filtered_idct), 'Czas[s]', 'Amplituda', 'IDCT')
+        else:
+            dct_plot = StemPlot(self.frequency_axis, np.abs(self.filtered_dct), 'Częstotliwość[Hz]', 'Amplituda',
+                                'abs(DCT)')
+            idct_plot = StemPlot(self.discrete_time_axis, np.real(self.filtered_idct), 'Czas[s]', 'Amplituda', 'IDCT')
 
         for canvas in canvases:
             canvas.clear()
@@ -88,25 +98,37 @@ class Receiver:
         idct_plot.create_on_canvas(canvases[1])
 
     def update_fft_plot(self, canvas):
-        fft_plot = StemPlot(self.frequency_axis, np.abs(self.fft_data), 'Częstotliwość[Hz]', 'Amplituda', 'abs(FFT)')
+        if self.is_signal_from_file:
+            fft_plot = Plot(self.frequency_axis, np.abs(self.fft_data), 'Częstotliwość[Hz]', 'Amplituda', 'abs(FFT)')
+        else:
+            fft_plot = StemPlot(self.frequency_axis, np.abs(self.fft_data), 'Częstotliwość[Hz]', 'Amplituda', 'abs(FFT)')
 
         canvas.clear()
         fft_plot.create_on_canvas(canvas)
 
     def update_ifft_plot(self, canvas):
-        ifft_plot = StemPlot(self.discrete_time_axis, np.real(self.ifft_data), 'Czas[s]', 'Amplituda', 'IFFT')
+        if self.is_signal_from_file:
+            ifft_plot = Plot(None, np.real(self.ifft_data), 'Czas[s]', 'Amplituda', 'IFFT')
+        else:
+            ifft_plot = StemPlot(self.discrete_time_axis, np.real(self.ifft_data), 'Czas[s]', 'Amplituda', 'IFFT')
 
         canvas.clear()
         ifft_plot.create_on_canvas(canvas)
 
     def update_dct_plot(self, canvas):
-        dct_plot = StemPlot(self.frequency_axis, np.abs(self.dct_data), 'Częstotliwość[Hz]', 'Amplituda', 'abs(DCT)')
+        if self.is_signal_from_file:
+            dct_plot = Plot(self.frequency_axis, np.abs(self.dct_data), 'Częstotliwość[Hz]', 'Amplituda', 'abs(DCT)')
+        else:
+            dct_plot = StemPlot(self.frequency_axis, np.abs(self.dct_data), 'Częstotliwość[Hz]', 'Amplituda', 'abs(DCT)')
 
         canvas.clear()
         dct_plot.create_on_canvas(canvas)
 
     def update_idct_plot(self, canvas):
-        idct_plot = StemPlot(self.discrete_time_axis, np.real(self.idct_data), 'Czas[s]', 'Amplituda', 'IDCT')
+        if self.is_signal_from_file:
+            idct_plot = Plot(None, np.real(self.idct_data), 'Czas[s]', 'Amplituda', 'IDCT')
+        else:
+            idct_plot = StemPlot(self.discrete_time_axis, np.real(self.idct_data), 'Czas[s]', 'Amplituda', 'IDCT')
 
         canvas.clear()
         idct_plot.create_on_canvas(canvas)
@@ -116,23 +138,24 @@ class Receiver:
             filename = controller.get_wav_file()
             if filename:
                 self.wave, sampling_frequency = signals_handler.generate_from_file(filename)
-
-                self.fft_data = FFTAnalyzer(self.wave).calculate()
+                samples_number = len(self.wave)
+                self.fft_data = FFTAnalyzer(self.wave).calculate()[:samples_number//2]
                 self.ifft_data = IFFTAnalyzer(self.fft_data).calculate()
 
-                self.dct_data = DCTAnalyzer(self.wave).calculate()
-                self.idct_data = IDCTAnalyzer(self.dct_data).calculate()
+                self.frequency_axis = FrequencyAxis(samples_number, sampling_frequency).generate()
+                self.frequency_axis = self.frequency_axis[:samples_number//2]
 
-                self.frequency_axis = FrequencyAxis(len(self.fft_data), sampling_frequency).generate()
+                self.dct_data = DCTAnalyzer(self.wave).calculate()[:samples_number//2]
+                self.idct_data = IDCTAnalyzer(self.dct_data).calculate()
 
                 signal_plot = Plot(None, self.wave, 'Czas', 'Amplituda', 'Sygnał oryginalny')
 
-                fft_plot = StemPlot(self.frequency_axis, np.abs(self.fft_data), 'Częstotliwość', 'Amplituda',
-                                    'abs(FFT)')
+                fft_plot = Plot(self.frequency_axis, np.abs(self.fft_data), 'Częstotliwość', 'Amplituda',
+                                'abs(FFT)')
                 idft_plot = Plot(None, np.real(self.ifft_data), 'Czas', 'Amplituda', 'IFFT')
 
-                dct_plot = StemPlot(self.frequency_axis, np.abs(self.dct_data), 'Częstotliwość', 'Amplituda',
-                                    'abs(DCT)')
+                dct_plot = Plot(self.frequency_axis, np.abs(self.dct_data), 'Częstotliwość', 'Amplituda',
+                                'abs(DCT)')
                 idct_plot = Plot(None, np.real(self.idct_data), 'Czas', 'Amplituda', 'abs(IDCT)')
 
                 for canvas in canvases:
@@ -300,9 +323,9 @@ class Receiver:
     def show_window(controller):
         controller.show()
 
-    @staticmethod
-    def set_main_window_inactive(condition, controller):
+    def set_main_window_inactive(self, condition, controller):
         if condition:
+            self.is_signal_from_file = True
             controller.amplitude_edit.setDisabled(True)
             controller.frequency_edit.setDisabled(True)
             controller.phase_edit.setDisabled(True)
@@ -311,6 +334,7 @@ class Receiver:
             controller.time_step_edit.setDisabled(True)
             controller.signal_number_edit.setDisabled(True)
         else:
+            self.is_signal_from_file = False
             controller.amplitude_edit.setDisabled(False)
             controller.frequency_edit.setDisabled(False)
             controller.phase_edit.setDisabled(False)
@@ -318,5 +342,3 @@ class Receiver:
             controller.samples_number_edit.setDisabled(False)
             controller.time_step_edit.setDisabled(False)
             controller.signal_number_edit.setDisabled(False)
-
-
