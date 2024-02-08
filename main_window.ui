@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1442</width>
-    <height>1127</height>
+    <width>1213</width>
+    <height>1131</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,7 +33,7 @@
     <item>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QTabWidget" name="tabWidget">
+       <widget class="QTabWidget" name="mainWidget">
         <property name="contextMenuPolicy">
          <enum>Qt::CustomContextMenu</enum>
         </property>
@@ -64,7 +64,7 @@
         <property name="tabBarAutoHide">
          <bool>false</bool>
         </property>
-        <widget class="QWidget" name="tabWidgetPage1">
+        <widget class="QWidget" name="signal1D_Page">
          <attribute name="title">
           <string>Sygnał 1D</string>
          </attribute>
@@ -104,7 +104,7 @@ font: 75 italic bold 12pt &quot;Century Gothic&quot;;}</string>
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QFrame" name="frame_2">
+             <widget class="QFrame" name="data_frame">
               <property name="styleSheet">
                <string notr="true"/>
               </property>
@@ -116,7 +116,7 @@ font: 75 italic bold 12pt &quot;Century Gothic&quot;;}</string>
               </property>
               <layout class="QFormLayout" name="formLayout">
                <item row="0" column="0">
-                <widget class="QLabel" name="label">
+                <widget class="QLabel" name="amplitude_label">
                  <property name="styleSheet">
                   <string notr="true">QLabel{
 font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
@@ -135,39 +135,8 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QSpinBox" name="amplitude_edit">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QSpinBox {
-    /* Background color */
-    background-color: #f0f0f0;
-    /* Border */
-    border: 1px solid #3498db;
-    border-radius: 5px;
-    /* Text color */
-    color: #333;
-    /* Padding */
-    padding: 1px;
-}
-QSpinBox:disabled {
-    color: gray;           /* Text color when disabled */
-    background-color: #f0f0f0;  /* Background color when disabled */
-    border: 1px solid #d4d4d4; /* Border color when disabled */
-}</string>
-                 </property>
-                 <property name="maximum">
-                  <number>100000</number>
-                 </property>
-                 <property name="value">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
                <item row="2" column="0">
-                <widget class="QLabel" name="label_2">
+                <widget class="QLabel" name="frequency_label">
                  <property name="styleSheet">
                   <string notr="true">QLabel{
 font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
@@ -178,42 +147,8 @@ sygnału[Hz]:</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="0">
-                <widget class="QSpinBox" name="frequency_edit">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QSpinBox {
-    /* Background color */
-    background-color: #f0f0f0;
-    /* Border */
-    border: 1px solid #3498db;
-    border-radius: 5px;
-    /* Text color */
-    color: #333;
-    /* Padding */
-    padding: 1px;
-}
-QSpinBox:disabled {
-    color: gray;           /* Text color when disabled */
-    background-color: #f0f0f0;  /* Background color when disabled */
-    border: 1px solid #d4d4d4; /* Border color when disabled */
-}</string>
-                 </property>
-                 <property name="minimum">
-                  <number>1</number>
-                 </property>
-                 <property name="maximum">
-                  <number>100000</number>
-                 </property>
-                 <property name="value">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
                <item row="4" column="0">
-                <widget class="QLabel" name="label_7">
+                <widget class="QLabel" name="phase_label">
                  <property name="styleSheet">
                   <string notr="true">QLabel{
 font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
@@ -223,135 +158,14 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0">
-                <widget class="QSpinBox" name="phase_edit">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QSpinBox {
-    /* Background color */
-    background-color: #f0f0f0;
-    /* Border */
-    border: 1px solid #3498db;
-    border-radius: 5px;
-    /* Text color */
-    color: #333;
-    /* Padding */
-    padding: 1px;
-}
-QSpinBox:disabled {
-    color: gray;           /* Text color when disabled */
-    background-color: #f0f0f0;  /* Background color when disabled */
-    border: 1px solid #d4d4d4; /* Border color when disabled */
-}</string>
-                 </property>
-                 <property name="minimum">
-                  <number>-10000</number>
-                 </property>
-                 <property name="maximum">
-                  <number>100000</number>
-                 </property>
-                 <property name="value">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="0">
-                <widget class="QLabel" name="label_4">
-                 <property name="styleSheet">
-                  <string notr="true">QLabel{
-font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
-                 </property>
-                 <property name="text">
-                  <string>Częstotliwość
- próbkowania
-[Hz]:</string>
-                 </property>
-                 <property name="textFormat">
-                  <enum>Qt::AutoText</enum>
-                 </property>
-                 <property name="scaledContents">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="0">
-                <widget class="QSpinBox" name="sampling_frequency_edit">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QSpinBox {
-    /* Background color */
-    background-color: #f0f0f0;
-    /* Border */
-    border: 1px solid #3498db;
-    border-radius: 5px;
-    /* Text color */
-    color: #333;
-    /* Padding */
-    padding: 1px;
-}
-QSpinBox:disabled {
-    color: gray;           /* Text color when disabled */
-    background-color: #f0f0f0;  /* Background color when disabled */
-    border: 1px solid #d4d4d4; /* Border color when disabled */
-}</string>
-                 </property>
-                 <property name="minimum">
-                  <number>1</number>
-                 </property>
-                 <property name="maximum">
-                  <number>100000</number>
-                 </property>
-                 <property name="value">
-                  <number>10</number>
-                 </property>
-                </widget>
-               </item>
                <item row="8" column="0">
-                <widget class="QLabel" name="label_8">
+                <widget class="QLabel" name="samples_number_label">
                  <property name="styleSheet">
                   <string notr="true">QLabel{
 font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  </property>
                  <property name="text">
                   <string>Liczba próbek:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="9" column="0">
-                <widget class="QSpinBox" name="samples_number_edit">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QSpinBox {
-    /* Background color */
-    background-color: #f0f0f0;
-    /* Border */
-    border: 1px solid #3498db;
-    border-radius: 5px;
-    /* Text color */
-    color: #333;
-    /* Padding */
-    padding: 1px;
-}
-QSpinBox:disabled {
-    color: gray;           /* Text color when disabled */
-    background-color: #f0f0f0;  /* Background color when disabled */
-    border: 1px solid #d4d4d4; /* Border color when disabled */
-}</string>
-                 </property>
-                 <property name="minimum">
-                  <number>1</number>
-                 </property>
-                 <property name="maximum">
-                  <number>1000</number>
-                 </property>
-                 <property name="value">
-                  <number>10</number>
                  </property>
                 </widget>
                </item>
@@ -381,6 +195,11 @@ QPushButton:pressed {
     /* Change style when the button is pressed */
     background-color: #266197;
     border: 2px solid #266197;
+}
+QPushButton:disabled{
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
 }</string>
                  </property>
                  <property name="text">
@@ -390,6 +209,9 @@ QPushButton:pressed {
                </item>
                <item row="11" column="0">
                 <widget class="QTextBrowser" name="signal_label">
+                 <property name="toolTip">
+                  <string>Dodane składowe sygnału</string>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">QTextBrowser {
     /* Background color */
@@ -404,7 +226,7 @@ QPushButton:pressed {
 }</string>
                  </property>
                  <property name="readOnly">
-                  <bool>false</bool>
+                  <bool>true</bool>
                  </property>
                  <property name="html">
                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -416,7 +238,7 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
                <item row="12" column="0">
-                <widget class="QLabel" name="label_5">
+                <widget class="QLabel" name="time_step_label">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Krok między kolejnymi wartościami w zestawie danych osi OX&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
@@ -429,42 +251,8 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  </property>
                 </widget>
                </item>
-               <item row="13" column="0">
-                <widget class="QLineEdit" name="time_step_edit">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLineEdit {
-    /* Background color */
-    background-color: #f0f0f0;
-    /* Border */
-    border: 1px solid #3498db;
-    border-radius: 5px;
-    /* Text color */
-    color: #333;
-    /* Padding */
-    padding: 1px;
-}
-QLineEdit:disabled {
-    color: gray;           /* Text color when disabled */
-    background-color: #f0f0f0;  /* Background color when disabled */
-    border: 1px solid #d4d4d4; /* Border color when disabled */
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>0.0001</string>
-                 </property>
-                 <property name="frame">
-                  <bool>false</bool>
-                 </property>
-                 <property name="cursorMoveStyle">
-                  <enum>Qt::LogicalMoveStyle</enum>
-                 </property>
-                </widget>
-               </item>
                <item row="14" column="0">
-                <widget class="QLabel" name="label_6">
+                <widget class="QLabel" name="signal_number_label">
                  <property name="toolTip">
                   <string>Wpisz numer składowej sygnału, na której chcesz wykonywać operacje 
 Numer składowej &gt;=1</string>
@@ -485,7 +273,7 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                 </widget>
                </item>
                <item row="16" column="0">
-                <widget class="QCheckBox" name="signal_number">
+                <widget class="QCheckBox" name="signal_number_checkBox">
                  <property name="maximumSize">
                   <size>
                    <width>370</width>
@@ -495,15 +283,25 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  <property name="toolTip">
                   <string>Po zaznaczeniu wybierz numer składowej, następnie możesz edytować parametry sygnału</string>
                  </property>
+                 <property name="styleSheet">
+                  <string notr="true">QCheckBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+                 </property>
                  <property name="text">
                   <string>Zaznacz, aby wykonywać operacje na wybranej składowej</string>
                  </property>
                 </widget>
                </item>
                <item row="17" column="0">
-                <widget class="QSpinBox" name="signal_number_edit">
+                <widget class="QSpinBox" name="signal_number_spinBox">
                  <property name="enabled">
                   <bool>true</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Wybierz numer składowej powyższego sygnału, na której chcesz dokonywać operacji (min: 1; max: ilość sygnałów w polu powyżej)</string>
                  </property>
                  <property name="styleSheet">
                   <string notr="true">QSpinBox
@@ -526,6 +324,9 @@ QSpinBox:disabled {
                  </property>
                  <property name="minimum">
                   <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>1000</number>
                  </property>
                 </widget>
                </item>
@@ -555,6 +356,11 @@ QPushButton:pressed {
     /* Change style when the button is pressed */
     background-color: #266197;
     border: 2px solid #266197;
+}
+QPushButton:disabled{
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
 }</string>
                  </property>
                  <property name="text">
@@ -563,7 +369,7 @@ QPushButton:pressed {
                 </widget>
                </item>
                <item row="19" column="0">
-                <widget class="QCheckBox" name="file_check_box">
+                <widget class="QCheckBox" name="file_checkBox">
                  <property name="toolTip">
                   <string>Po zaznaczeniu, analizie poddany zostanie sygnał z wybranego pliku</string>
                  </property>
@@ -573,7 +379,7 @@ QPushButton:pressed {
                 </widget>
                </item>
                <item row="20" column="0">
-                <widget class="QLabel" name="label_3">
+                <widget class="QLabel" name="file_path_label">
                  <property name="styleSheet">
                   <string notr="true">QLabel{
 font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
@@ -714,6 +520,247 @@ QPushButton:pressed {
                  </property>
                 </widget>
                </item>
+               <item row="7" column="0">
+                <widget class="QDoubleSpinBox" name="sampling_frequency_spinBox">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Wybierz częstotliwość próbkowania (min. 0.1)</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QDoubleSpinBox {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QDoubleSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+                 </property>
+                 <property name="minimum">
+                  <double>0.100000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>100000.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>10.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QDoubleSpinBox" name="phase_spinBox">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Wybierz fazę składowej </string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QDoubleSpinBox {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QDoubleSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+                 </property>
+                 <property name="minimum">
+                  <double>-100000.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>1000000.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QDoubleSpinBox" name="frequency_spinBox">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Wybierz częstotliwość składowej (min. 0)</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QDoubleSpinBox {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QDoubleSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+                 </property>
+                 <property name="maximum">
+                  <double>1000000.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QDoubleSpinBox" name="amplitude_spinBox">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Wybierz amplitudę składowej</string>
+                 </property>
+                 <property name="toolTipDuration">
+                  <number>-1</number>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QDoubleSpinBox {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QDoubleSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+                 </property>
+                 <property name="minimum">
+                  <double>-10000000.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>10000000.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QLabel" name="sampling_frequency_label">
+                 <property name="styleSheet">
+                  <string notr="true">QLabel{
+font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+                 </property>
+                 <property name="text">
+                  <string>Częstotliwość
+ próbkowania
+[Hz]:</string>
+                 </property>
+                 <property name="textFormat">
+                  <enum>Qt::AutoText</enum>
+                 </property>
+                 <property name="scaledContents">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="0">
+                <widget class="QSpinBox" name="samples_number_spinBox">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Wybierz liczbę próbek (min. 1)</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QSpinBox {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>100000</number>
+                 </property>
+                 <property name="value">
+                  <number>10</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="13" column="0">
+                <widget class="QDoubleSpinBox" name="time_step_spinBox">
+                 <property name="toolTip">
+                  <string>Odpowiada za to, jak dokładnie narysowany zostanie sygnał</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QDoubleSpinBox {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QDoubleSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+                 </property>
+                 <property name="decimals">
+                  <number>5</number>
+                 </property>
+                 <property name="minimum">
+                  <double>0.000010000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>5.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.000100000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.001000000000000</double>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>
@@ -732,13 +779,16 @@ QPushButton:pressed {
          <attribute name="title">
           <string>Sygnał 2D</string>
          </attribute>
-         <layout class="QFormLayout" name="formLayout_6">
+         <layout class="QFormLayout" name="formLayout_3">
           <item row="0" column="0">
-           <layout class="QGridLayout" name="data_layout_3">
-            <property name="verticalSpacing">
-             <number>7</number>
+           <layout class="QGridLayout" name="data_layout_3" rowstretch="0,0">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetNoConstraint</enum>
             </property>
-            <item row="0" column="0">
+            <property name="verticalSpacing">
+             <number>10</number>
+            </property>
+            <item row="0" column="0" alignment="Qt::AlignTop">
              <widget class="QLabel" name="signal_data_label">
               <property name="font">
                <font>
@@ -767,7 +817,7 @@ font: 75 italic bold 12pt &quot;Century Gothic&quot;;}</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="0" alignment="Qt::AlignTop">
+            <item row="1" column="0">
              <widget class="QFrame" name="frame_4">
               <property name="styleSheet">
                <string notr="true"/>
@@ -780,16 +830,173 @@ font: 75 italic bold 12pt &quot;Century Gothic&quot;;}</string>
               </property>
               <layout class="QFormLayout" name="formLayout_5">
                <item row="1" column="0">
+                <widget class="QLabel" name="label_2">
+                 <property name="styleSheet">
+                  <string notr="true">QLabel{
+font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+                 </property>
+                 <property name="text">
+                  <string>Częstotliwość X[Hz]:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QDoubleSpinBox" name="frequency_x">
+                 <property name="styleSheet">
+                  <string notr="true">QDoubleSpinBox {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QDoubleSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+                 </property>
+                 <property name="maximum">
+                  <double>100000.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>5.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_3">
+                 <property name="styleSheet">
+                  <string notr="true">QLabel{
+font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+                 </property>
+                 <property name="text">
+                  <string>Częstotliwość Y[Hz]:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QDoubleSpinBox" name="frequency_y">
+                 <property name="styleSheet">
+                  <string notr="true">QDoubleSpinBox {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QDoubleSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+                 </property>
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>5.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_4">
+                 <property name="styleSheet">
+                  <string notr="true">QLabel{
+font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+                 </property>
+                 <property name="text">
+                  <string>Faza[°] :</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QDoubleSpinBox" name="angle">
+                 <property name="styleSheet">
+                  <string notr="true">QDoubleSpinBox {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QDoubleSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+                 </property>
+                 <property name="minimum">
+                  <double>-1000.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>1000.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>5.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0" colspan="2">
+                <widget class="QPushButton" name="draw_button">
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Narysuj </string>
+                 </property>
+                </widget>
+               </item>
+               <item row="13" column="0">
                 <widget class="QCheckBox" name="image_file_checkBox">
                  <property name="toolTip">
                   <string>Po zaznaczeniu, analizie poddany zostanie wybrany obraz</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QCheckBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
                  </property>
                  <property name="text">
                   <string>Obraz z pliku</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
+               <item row="14" column="0">
                 <widget class="QLabel" name="image_file_label">
                  <property name="styleSheet">
                   <string notr="true">QLabel{
@@ -806,7 +1013,7 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  </property>
                 </widget>
                </item>
-               <item row="6" column="0">
+               <item row="15" column="0">
                 <widget class="QTextEdit" name="image_file_name">
                  <property name="toolTip">
                   <string>Ścieżka do pliku</string>
@@ -835,7 +1042,7 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  </property>
                 </widget>
                </item>
-               <item row="10" column="0">
+               <item row="19" column="0">
                 <widget class="QPushButton" name="choose_image_file_button">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Otwórz eksplorator plików w celu wyboru pliku&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -868,8 +1075,8 @@ QPushButton:pressed {
                  </property>
                 </widget>
                </item>
-               <item row="11" column="0" colspan="2">
-                <widget class="QPushButton" name="d_dft_button">
+               <item row="20" column="0" colspan="2">
+                <widget class="QPushButton" name="dft_2d_button">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż okno z wykresem DFT&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
@@ -901,8 +1108,8 @@ QPushButton:pressed {
                  </property>
                 </widget>
                </item>
-               <item row="12" column="0" colspan="2">
-                <widget class="QPushButton" name="d_dct_button">
+               <item row="21" column="0" colspan="2">
+                <widget class="QPushButton" name="dct_2d_button">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż okno z wykresem DCT&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
@@ -940,9 +1147,9 @@ QPushButton:pressed {
            </layout>
           </item>
           <item row="0" column="1">
-           <layout class="QVBoxLayout" name="signal_layout_2d">
+           <layout class="QVBoxLayout" name="image_layout">
             <property name="sizeConstraint">
-             <enum>QLayout::SetDefaultConstraint</enum>
+             <enum>QLayout::SetNoConstraint</enum>
             </property>
            </layout>
           </item>

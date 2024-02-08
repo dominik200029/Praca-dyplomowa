@@ -1,6 +1,5 @@
-from PIL import Image
+import cv2
 from scipy.io import wavfile
-import numpy as np
 from abc import ABC, abstractmethod
 
 
@@ -91,6 +90,7 @@ class JpgFileHandler(FileHandler):
         Returns:
             numpy.ndarray: The image data as a NumPy array.
         """
-        image = Image.open(self.file_path)
-        image_data = np.array(image)
-        return image_data
+        image = cv2.imread(self.file_path, 0)
+        image_resized = cv2.resize(image, (64, 64))
+
+        return image_resized

@@ -6,12 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>910</width>
-    <height>1164</height>
+    <width>698</width>
+    <height>1165</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>DFT</string>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
+  <property name="dockNestingEnabled">
+   <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -57,61 +63,8 @@ QPushButton:pressed {
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
-        <widget class="QCheckBox" name="apply_check_box">
-         <property name="text">
-          <string>Zastosuj</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QDoubleSpinBox" name="cut_off_edit">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QDoubleSpinBox
- {
-    /* Background color */
-    background-color: #f0f0f0;
-    /* Border */
-    border: 1px solid #3498db;
-    border-radius: 5px;
-    /* Text color */
-    color: #333;
-    /* Padding */
-    padding: 1px;
-}
-QDoubleSpinBox:disabled {
-    color: gray;           /* Text color when disabled */
-    background-color: #f0f0f0;  /* Background color when disabled */
-    border: 1px solid #d4d4d4; /* Border color when disabled */
-}</string>
-         </property>
-         <property name="readOnly">
-          <bool>false</bool>
-         </property>
-         <property name="minimum">
-          <double>-100000.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>100000.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="styleSheet">
-          <string notr="true">QLabel{
-font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
-         </property>
-         <property name="text">
-          <string>Dolna częstotliwość graniczna:</string>
-         </property>
-        </widget>
-       </item>
        <item row="7" column="0">
-        <widget class="QLabel" name="label_11">
+        <widget class="QLabel" name="high_cut_off_frequency_label">
          <property name="styleSheet">
           <string notr="true">QLabel{
 font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
@@ -122,7 +75,7 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
         </widget>
        </item>
        <item row="6" column="0">
-        <widget class="QDoubleSpinBox" name="low_cut_off">
+        <widget class="QDoubleSpinBox" name="low_cut_off_frequency_spinBox">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -149,7 +102,7 @@ QDoubleSpinBox:disabled {
           <bool>false</bool>
          </property>
          <property name="minimum">
-          <double>-100000.000000000000000</double>
+          <double>0.000000000000000</double>
          </property>
          <property name="maximum">
           <double>100000.000000000000000</double>
@@ -157,7 +110,7 @@ QDoubleSpinBox:disabled {
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="filters_label">
          <property name="styleSheet">
           <string notr="true">QLabel{
 font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
@@ -213,19 +166,8 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
          </item>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="styleSheet">
-          <string notr="true">QLabel{
-font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
-         </property>
-         <property name="text">
-          <string>Częstotliwość graniczna:</string>
-         </property>
-        </widget>
-       </item>
        <item row="8" column="0">
-        <widget class="QDoubleSpinBox" name="high_cut_off">
+        <widget class="QDoubleSpinBox" name="high_cut_off_frequency_spinBox">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -252,10 +194,98 @@ QDoubleSpinBox:disabled {
           <bool>false</bool>
          </property>
          <property name="minimum">
-          <double>-100000.000000000000000</double>
+          <double>0.000000000000000</double>
          </property>
          <property name="maximum">
           <double>100000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="cut_off_frequency_label">
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+         </property>
+         <property name="text">
+          <string>Częstotliwość graniczna:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="low_cut_off_frequency_label">
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+         </property>
+         <property name="text">
+          <string>Dolna częstotliwość graniczna:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QDoubleSpinBox" name="cut_off_frequency_spinBox">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QDoubleSpinBox
+ {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QDoubleSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+         </property>
+         <property name="readOnly">
+          <bool>false</bool>
+         </property>
+         <property name="minimum">
+          <double>0.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>100000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QPushButton" name="apply_button">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 12px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Zastosuj</string>
          </property>
         </widget>
        </item>

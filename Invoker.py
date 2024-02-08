@@ -1,31 +1,40 @@
 class Invoker:
     """
-    Class for invoking commands.
+    Invoker class responsible for storing and executing commands.
 
     Attributes:
-        cmd: The command to be executed.
+        commands (list): A list to store commands.
 
     Methods:
-        store_command(cmd): Store a command to be executed.
-        execute(): Execute the stored command.
+        store_commands: Store one or more commands in the list of commands.
+        execute: Execute all stored commands.
     """
+
     def __init__(self):
         """
-        Initializes an Invoker instance.
+        Initialize an Invoker instance with an empty list of commands.
         """
-        self.cmd = None
+        self.commands = []
 
-    def store_command(self, cmd):
+    def store_commands(self, *commands):
         """
-        Store a command to be executed.
+        Store one or more commands in the list of commands.
 
         Parameters:
-            cmd: The command to be stored.
+            *commands: Variable number of command objects to be stored.
+
+        Returns:
+            None
         """
-        self.cmd = cmd
+        for command in commands:
+            self.commands.append(command)
 
     def execute(self):
         """
-        Execute the stored command.
+        Execute all stored commands.
+
+        Returns:
+            None
         """
-        self.cmd.execute()
+        for command in self.commands:
+            command.execute()

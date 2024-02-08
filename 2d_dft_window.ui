@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>664</width>
+    <height>1232</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>2D DFT</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item alignment="Qt::AlignTop">
+     <widget class="QFrame" name="dataFrame">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="9" column="0">
+        <widget class="QSpinBox" name="column">
+         <property name="styleSheet">
+          <string notr="true">QSpinBox
+ {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>64</number>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="5">
+        <widget class="QPushButton" name="apply_button">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 12px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Zastosuj</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0" colspan="5">
+        <widget class="QPushButton" name="reset_button">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 12px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}</string>
+         </property>
+         <property name="text">
+          <string>Reset</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="column_label">
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+         </property>
+         <property name="text">
+          <string>Kolumna:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="row_label">
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+         </property>
+         <property name="text">
+          <string>Wiersz:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="filters_label">
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+         </property>
+         <property name="text">
+          <string>Rodzaj filtru:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QSpinBox" name="row">
+         <property name="styleSheet">
+          <string notr="true">QSpinBox
+ {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>64</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QComboBox" name="filters_list">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dolnoprzepustowy: wszystkie kolumny oraz wiersze powyżej wybranych zostaną wyzerowane&lt;/p&gt;&lt;p&gt;Górnoprzepustowy: wszystkie kolumny oraz wiersze poniżej wybranych zostaną wyzerowane&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="toolTipDuration">
+          <number>-1</number>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QComboBox
+ {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}</string>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <item>
+          <property name="text">
+           <string>Wybierz filtr</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Dolnoprzepustowy</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Górnoprzepustowy</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="dft2D_layout"/>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="idft2D_layout"/>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

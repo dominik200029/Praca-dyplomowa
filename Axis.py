@@ -1,7 +1,6 @@
-from scipy.fft import fftfreq
-import numpy as np
 from abc import ABC, abstractmethod
-
+import numpy as np
+from scipy.fftpack import fftfreq
 
 class Axis(ABC):
     """
@@ -68,7 +67,7 @@ class TimeAxis(Axis):
         """
         start = 0
         step = self.time_step
-        stop = self.samples_number / self.sampling_frequency
+        stop = (self.samples_number - 1) * (1 / self.sampling_frequency)
         return np.arange(start, stop, step)
 
 
@@ -95,7 +94,6 @@ class DiscreteTimeAxis(Axis):
         super().__init__(samples_number, sampling_frequency)
 
     def generate(self):
-
         """
         Generate the discrete time axis values.
 
@@ -105,24 +103,24 @@ class DiscreteTimeAxis(Axis):
         start = 0
         stop = (self.samples_number - 1) / self.sampling_frequency
         num = self.samples_number
-        return np.linspace(start, stop, num)
+        return np.linspace(start, stop, num, endpoint=True)
 
 
-class FrequencyAxis(Axis):
+class FFTAxis(Axis):
     """
-    Represents a frequency axis.
+    Represents fft frequency axis.
 
     Attributes:
         samples_number (int): The number of samples.
         sampling_frequency (float): The sampling frequency.
 
     Methods:
-        generate(): Generate the frequency axis values.
+        generate(): Generate the axis values.
     """
 
     def __init__(self, samples_number, sampling_frequency):
         """
-        Initializes a FrequencyAxis instance with specified number of samples and sampling frequency.
+        Initializes a FFTAxis instance with specified number of samples and sampling frequency.
 
         Parameters:
             samples_number (int): The number of samples.
@@ -138,3 +136,35 @@ class FrequencyAxis(Axis):
             numpy.ndarray: The frequency axis values.
         """
         return fftfreq(self.samples_number, d=1 / self.sampling_frequency)
+
+
+class DCTAxis(Axis):
+    """
+    Represents dct frequency axis.
+
+    Attributes:
+        samples_number (int): The number of samples.
+        sampling_frequency (float): The sampling frequency.
+
+    Methods:
+        generate(): Generate the axis values.
+    """
+
+    def __init__(self, samples_number, sampling_frequency):
+        """
+        Initializes a DCTAxis instance with specified number of samples and sampling frequency.
+
+        Parameters:
+            samples_number (int): The number of samples.
+            sampling_frequency (float): The sampling frequency.
+        """
+        super().__init__(samples_number, sampling_frequency)
+
+    def generate(self):
+        """
+        Generate the frequency axis values as an array.
+
+        Returns:
+            numpy.ndarray: The frequency axis values.
+        """
+        return np.arange(0, self.samples_number, 1) * self.sampling_frequency / (2.0 * self.samples_number)

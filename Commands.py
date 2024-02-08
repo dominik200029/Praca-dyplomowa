@@ -1,258 +1,103 @@
 from abc import ABC, abstractmethod
 
+from abc import ABC, abstractmethod
+
 
 class Command(ABC):
     """
-    Abstract base class for command objects.
+    Abstract base class for commands.
 
     Attributes:
-    - receiver: The receiver object that the command operates on.
-
-    Methods:
-    - execute(): Execute the command.
+        receiver: The receiver object that performs the actual action.
     """
 
     def __init__(self, receiver):
+        """
+        Initializes a Command instance with a receiver object.
+
+        Parameters:
+            receiver: The receiver object that performs the actual action.
+        """
         self.receiver = receiver
 
     @abstractmethod
     def execute(self):
         """
-        Abstract method to be implemented by concrete command classes.
+        Abstract method to execute the command.
         """
         pass
 
 
+class CreateWindowCommand(Command):
+    """
+    Command to create a window.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes a CreateWindowCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to create a window.
+        """
+        self.receiver.show_window(self.controller)
+
+
 class AddSignalCommand(Command):
     """
-    Command to add a signal to the SignalsHandler.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - signals_handler: The SignalsHandler instance.
-    - controller: The controller instance.
+    Command to add a signal.
     """
 
     def __init__(self, receiver, signals_handler, controller):
+        """
+        Initializes an AddSignalCommand instance with specified receiver, signals_handler, and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            signals_handler: The signals_handler object.
+            controller: The controller object.
+        """
         super().__init__(receiver)
         self.signals_handler = signals_handler
         self.controller = controller
 
     def execute(self):
         """
-        Execute the command to add a signal to the SignalsHandler and update the GUI label.
+        Executes the command to add a signal.
         """
         self.receiver.add_signal_to_list(self.signals_handler, self.controller)
         self.controller.update_label(self.controller.signal_label, self.signals_handler.get_text())
 
 
-class UpdatePlotsCommand(Command):
-    """
-    Command to update plots based on the selected option in the GUI.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - signals_handler: The SignalsHandler instance.
-    - controller: The controller instance.
-    - canvases: The canvas instances.
-    """
-
-    def __init__(self, receiver, signals_handler, controller, *canvases):
-        super().__init__(receiver)
-        self.signals_handler = signals_handler
-        self.controller = controller
-        self.canvases = canvases
-
-    def execute(self):
-        """
-        Execute the command to update plots based on the selected option in the GUI.
-        """
-        self.receiver.calculate_axis(self.controller)
-        self.receiver.calculate_wave(self.signals_handler)
-        self.receiver.calculate_fft()
-        self.receiver.calculate_dct()
-
-        self.receiver.update_signal_plot(self.canvases[0])
-        self.receiver.update_fft_plot(self.canvases[1])
-        self.receiver.update_ifft_plot(self.canvases[2])
-        self.receiver.update_dct_plot(self.canvases[3])
-        self.receiver.update_idct_plot(self.canvases[4])
-
-
-class UpdatePlotsFromFileCommand(Command):
-    """
-    Command to update plots based on the selected option in the GUI using data from a file.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - signals_handler: The SignalsHandler instance.
-    - controller: The controller instance.
-    - canvases: The canvas instances.
-    """
-
-    def __init__(self, receiver, signals_handler, controller, *canvases):
-        super().__init__(receiver)
-        self.signals_handler = signals_handler
-        self.controller = controller
-        self.canvases = canvases
-
-    def execute(self):
-        """
-        Execute the command to update plots based on the selected option in the GUI using data from a file.
-        """
-        self.receiver.update_plots_from_file(self.controller, self.signals_handler, *self.canvases)
-
-
-class UpdatePlotsFromJpgFileCommand(Command):
-    """
-    Command to update plots from a JPG file.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - controller: The controller instance.
-    - signals_handler: The SignalsHandler instance.
-    - canvases: The canvas instances.
-    """
-
-    def __init__(self, receiver, controller, signals_handler, *canvases):
-        super().__init__(receiver)
-        self.controller = controller
-        self.signals_handler = signals_handler
-        self.canvases = canvases
-
-    def execute(self):
-        """
-        Execute the command to update plots from a JPG file.
-        """
-        self.receiver.update_plots_from_jpg_file(self.controller, self.signals_handler, *self.canvases)
-
-
-class FilterFFTCommand(Command):
-    """
-    Command to apply FFT filtering.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - controller: The controller instance.
-    - canvases: The canvas instances.
-    """
-
-    def __init__(self, receiver, controller, *canvases):
-        super().__init__(receiver)
-        self.controller = controller
-        self.canvases = canvases
-
-    def execute(self):
-        """
-        Execute the command to apply FFT filtering.
-        """
-        self.receiver.filter_fft(self.controller)
-        self.receiver.filtered_fft_plot(*self.canvases)
-
-
-class FilterDCTCommand(Command):
-    """
-    Command to apply DCT filtering.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - controller: The controller instance.
-    - canvases: The canvas instances.
-    """
-
-    def __init__(self, receiver, controller, *canvases):
-        super().__init__(receiver)
-        self.controller = controller
-        self.canvases = canvases
-
-    def execute(self):
-        """
-        Execute the command to apply DCT filtering.
-        """
-        self.receiver.filter_dct(self.controller)
-        self.receiver.filtered_dct_plot(*self.canvases)
-
-
-class ResetFFTCommand(Command):
-    """
-    Command to reset FFT plots.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - canvases: The canvas instances.
-    """
-
-    def __init__(self, receiver, *canvases):
-        super().__init__(receiver)
-        self.canvases = canvases
-
-    def execute(self):
-        """
-        Execute the command to reset FFT plots.
-        """
-        self.receiver.update_fft_plot(self.canvases[0])
-        self.receiver.update_ifft_plot(self.canvases[1])
-
-
-class ResetDCTCommand(Command):
-    """
-    Command to reset DCT plots.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - canvases: The canvas instances.
-    """
-
-    def __init__(self, receiver, *canvases):
-        super().__init__(receiver)
-        self.canvases = canvases
-
-    def execute(self):
-        """
-        Execute the command to reset DCT plots.
-        """
-        self.receiver.update_dct_plot(self.canvases[0])
-        self.receiver.update_idct_plot(self.canvases[1])
-
-
-class HandleFiltersListCommand(Command):
-    """
-    Command to handle the list of filters.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - controller: The controller instance.
-    """
-
-    def __init__(self, receiver, controller):
-        super().__init__(receiver)
-        self.controller = controller
-
-    def execute(self):
-        """
-        Execute the command to handle the list of filters.
-        """
-        self.receiver.handle_list_of_filters(self.controller)
-
-
 class DeleteSignalCommand(Command):
     """
-    Command to delete a signal from the SignalsHandler.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - signals_handler: The SignalsHandler instance.
-    - controller: The controller instance.
+    Command to delete a signal.
     """
 
     def __init__(self, receiver, signals_handler, controller):
+        """
+        Initializes a DeleteSignalCommand instance with specified receiver, signals_handler, and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            signals_handler: The signals_handler object.
+            controller: The controller object.
+        """
         super().__init__(receiver)
         self.controller = controller
         self.signals_handler = signals_handler
 
     def execute(self):
         """
-        Execute the command to delete a signal from the SignalsHandler and update the GUI label.
+        Executes the command to delete a signal.
         """
         self.receiver.delete_signal(self.signals_handler, self.controller)
         self.controller.update_label(self.controller.signal_label, self.signals_handler.get_text())
@@ -260,15 +105,18 @@ class DeleteSignalCommand(Command):
 
 class UpdateSignalCommand(Command):
     """
-    Command to update the parameters of a signal in the SignalsHandler.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - signals_handler: The SignalsHandler instance.
-    - controller: The controller instance.
+    Command to update a signal.
     """
 
     def __init__(self, receiver, signals_handler, controller):
+        """
+        Initializes an UpdateSignalCommand instance with specified receiver, signals_handler, and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            signals_handler: The signals_handler object.
+            controller: The controller object.
+        """
         super().__init__(receiver)
         self.receiver = receiver
         self.signals_handler = signals_handler
@@ -276,87 +124,489 @@ class UpdateSignalCommand(Command):
 
     def execute(self):
         """
-        Execute the command to update the parameters of a signal in the SignalsHandler and update the GUI label.
+        Executes the command to update a signal.
         """
         self.receiver.update_signal(self.signals_handler, self.controller)
         self.controller.update_label(self.controller.signal_label, self.signals_handler.get_text())
 
 
-class ChooseWavFileCommand(Command):
+class UpdateSignalPlotCommand(Command):
     """
-    Command to open a file dialog and choose a WAV file.
+    Command to update the signal plot.
+    """
 
-    Attributes:
-    - receiver: The receiver instance.
-    - controller: The controller instance.
+    def __init__(self, receiver, signals_handler, controller):
+        """
+        Initializes an UpdateSignalPlotCommand instance with specified receiver, signals_handler, and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            signals_handler: The signals_handler object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.signals_handler = signals_handler
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to update the signal plot.
+        """
+        if self.receiver.is_signal_from_file:
+            self.receiver.collect_data_from_file(self.signals_handler)
+        else:
+            self.receiver.collect_data(self.controller)
+            self.receiver.calculate_time_axis()
+            self.receiver.calculate_discrete_time_axis()
+            self.receiver.calculate_dft_axis()
+            self.receiver.calculate_dct_axis()
+            self.receiver.calculate_wave(self.signals_handler)
+
+        self.receiver.update_signal_plot(self.controller.signal_canvas)
+
+
+class UpdateDFTPlotCommand(Command):
+    """
+    Command to update the DFT plot.
     """
 
     def __init__(self, receiver, controller):
+        """
+        Initializes an UpdateDFTPlotCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
         super().__init__(receiver)
         self.controller = controller
 
     def execute(self):
         """
-        Execute the command to open a file dialog and choose a WAV file.
+        Executes the command to update the DFT plot.
+        """
+        self.receiver.perform_dft()
+        self.receiver.perform_idft()
+        self.receiver.update_dft_plot(self.controller.dft_canvas)
+        self.receiver.update_idft_plot(self.controller.idft_canvas)
+
+
+class UpdateDCTPlotCommand(Command):
+    """
+    Command to update the DCT plot.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes an UpdateDCTPlotCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to update the DCT plot.
+        """
+        self.receiver.perform_dct()
+        self.receiver.perform_idct()
+        self.receiver.update_dct_plot(self.controller.dct_canvas)
+        self.receiver.update_idct_plot(self.controller.idct_canvas)
+
+
+class FilterDFTCommand(Command):
+    """
+    Command to filter the DFT plot.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes a FilterDFTCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to filter the DFT plot.
+        """
+        self.receiver.filter_dft(self.controller)
+        self.receiver.filter_idft()
+        self.receiver.filtered_dft_plot(self.controller.dft_canvas)
+        self.receiver.filtered_idft_plot(self.controller.idft_canvas)
+
+
+class FilterDCTCommand(Command):
+    """
+    Command to filter the DCT plot.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes a FilterDCTCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to filter the DCT plot.
+        """
+        self.receiver.filter_dct(self.controller)
+        self.receiver.filter_idct()
+        self.receiver.filtered_dct_plot(self.controller.dct_canvas)
+        self.receiver.filtered_idct_plot(self.controller.idct_canvas)
+
+
+class ResetDFTCommand(Command):
+    """
+    Command to reset the DFT plot.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes a ResetDFTCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to reset the DFT plot.
+        """
+        self.receiver.update_dft_plot(self.controller.dft_canvas)
+        self.receiver.update_idft_plot(self.controller.idft_canvas)
+
+
+class ResetDCTCommand(Command):
+    """
+    Command to reset the DCT plot.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes a ResetDCTCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to reset the DCT plot.
+        """
+        self.receiver.update_dct_plot(self.controller.dct_canvas)
+        self.receiver.update_idct_plot(self.controller.idct_canvas)
+
+
+class HandleFiltersListCommand(Command):
+    """
+    Command to handle the list of filters.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes a HandleFiltersListCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to handle the list of filters.
+        """
+        self.receiver.handle_list_of_filters(self.controller)
+
+
+class ChooseWavFileCommand(Command):
+    """
+    Command to choose a WAV file.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes a ChooseWavFileCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to choose a WAV file.
         """
         self.receiver.choose_wav_file(self.controller)
 
 
 class ChooseJpgFileCommand(Command):
     """
-    Command to open a file dialog and choose a JPG file.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - controller: The controller instance.
+    Command to choose a JPG file.
     """
 
     def __init__(self, receiver, controller):
+        """
+        Initializes a ChooseJpgFileCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
         super().__init__(receiver)
         self.controller = controller
 
     def execute(self):
         """
-        Execute the command to open a file dialog and choose a JPG file.
+        Executes the command to choose a JPG file.
         """
         self.receiver.choose_jpg_file(self.controller)
 
 
-class CreateWindowCommand(Command):
-    """
-    Command to create and display a new figure window.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - controller: The controller instance.
-    """
-
-    def __init__(self, receiver, controller):
-        super().__init__(receiver)
-        self.controller = controller
-
-    def execute(self):
-        """
-        Execute the command to create and display a new figure window.
-        """
-        self.receiver.show_window(self.controller)
-
-
 class HandleFileCheckBoxCommand(Command):
     """
-    Command to handle the file checkbox.
-
-    Attributes:
-    - receiver: The receiver instance.
-    - controller: The controller instance.
+    Command to handle the file check box.
     """
 
     def __init__(self, receiver, controller):
+        """
+        Initializes a HandleFileCheckBoxCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
         super().__init__(receiver)
         self.controller = controller
 
     def execute(self):
         """
-        Execute the command to handle the file checkbox.
+        Executes the command to handle the file check box.
         """
-        self.receiver.set_main_window_inactive(self.controller.wav_file_check_box_state, self.controller)
+        self.receiver.set_main_window_inactive(self.controller.wav_file_check_box_state(), self.controller)
+
+
+# 2D Commands
+class UpdateImagePlotCommand(Command):
+    """
+    Command to update the image plot.
+    """
+
+    def __init__(self, receiver, controller, signals_handler):
+        """
+        Initializes an UpdateImagePlotCommand instance with specified receiver, controller, and signals_handler.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+            signals_handler: The signals_handler object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+        self.signals_handler = signals_handler
+
+    def execute(self):
+        """
+        Executes the command to update the image plot.
+        """
+        self.receiver.set_image(self.controller, self.signals_handler)
+        self.receiver.plot_image(self.controller.image_canvas)
+
+
+class UpdateSineImagePlotCommand(Command):
+    """
+    Command to update the sine image plot.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes an UpdateSineImagePlotCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to update the sine image plot.
+        """
+        self.receiver.calculate_image(self.controller)
+        self.receiver.plot_image(self.controller.image_canvas)
+
+
+class UpdateDFT2DPlotsCommand(Command):
+    """
+    Command to update the 2D DFT plots.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes an UpdateDFT2DPlotsCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to update the 2D DFT plots.
+        """
+        self.receiver.perform_2d_dft()
+        self.receiver.plot_2d_dft(self.controller.dft2D_canvas)
+        self.receiver.perform_2d_idft()
+        self.receiver.plot_2d_idft(self.controller.idft2D_canvas)
+
+
+class FilterFFT2DCommand(Command):
+    """
+    Command to filter the 2D FFT plot.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes a FilterFFT2DCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to filter the 2D FFT plot.
+        """
+        self.receiver.filter_2d_dft(self.controller)
+        self.receiver.plot_filtered_2d_dft(self.controller.dft2D_canvas)
+        self.receiver.filter_2d_idft()
+        self.receiver.plot_filtered_2d_idft(self.controller.idft2D_canvas)
+
+
+class UpdateDCT2DPlotsCommand(Command):
+    """
+    Command to update the 2D DCT plots.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes an UpdateDCT2DPlotsCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to update the 2D DCT plots.
+        """
+        self.receiver.perform_2d_dct()
+        self.receiver.plot_2d_dct(self.controller.dct2D_canvas)
+        self.receiver.perform_2d_idct()
+        self.receiver.plot_2d_idct(self.controller.idct2D_canvas)
+
+
+class ResetDFT2DCommand(Command):
+    """
+    Command to reset the 2D DFT plots.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes a ResetDFT2DCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to reset the 2D DFT plots.
+        """
+        self.receiver.plot_2d_dft(self.controller.dft2D_canvas)
+        self.receiver.plot_2d_idft(self.controller.idft2D_canvas)
+
+
+class FilterDCT2DCommand(Command):
+    """
+    Command to filter the 2D DCT plot.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes a FilterDCT2DCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to filter the 2D DCT plot.
+        """
+        self.receiver.filter_2d_dct(self.controller)
+        self.receiver.plot_filtered_2d_dct(self.controller.dct2D_canvas)
+        self.receiver.filter_2d_idct()
+        self.receiver.plot_filtered_2d_idct(self.controller.idct2D_canvas)
+
+
+class ResetDCT2DCommand(Command):
+    """
+    Command to reset the 2D DCT plots.
+    """
+
+    def __init__(self, receiver, controller):
+        """
+        Initializes a ResetDCT2DCommand instance with specified receiver and controller.
+
+        Parameters:
+            receiver: The receiver object.
+            controller: The controller object.
+        """
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        """
+        Executes the command to reset the 2D DCT plots.
+        """
+        self.receiver.plot_2d_dct(self.controller.dct2D_canvas)
+        self.receiver.plot_2d_idct(self.controller.idct2D_canvas)
