@@ -93,10 +93,9 @@ class Receiver2D(Receiver):
             controller: The controller object.
         """
         frequency_x = controller.get_frequency_x()
-        frequency_y = controller.get_frequency_y()
         angle = controller.get_angle()
 
-        signal = Sine2D(frequency_x, frequency_y, angle).get_wave(size=64)
+        signal = Sine2D(frequency_x, angle).get_wave(size=64)
         self.image = signal
 
     def perform_2d_dft(self):

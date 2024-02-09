@@ -89,8 +89,7 @@ class MainWindowController(Window):
         wav_file_check_box_state(): Checks the state of the WAV file check box.
         jpg_file_check_box_state(): Checks the state of the JPG file check box.
         get_jpg_file(): Gets the JPG file path.
-        get_frequency_x(): Gets the x-axis frequency value.
-        get_frequency_y(): Gets the y-axis frequency value.
+        get_frequency_x(): Gets the spatial frequency value.
         get_angle(): Gets the angle value.
     """
 
@@ -163,10 +162,6 @@ class MainWindowController(Window):
     def get_frequency_x(self) -> float:
         """Gets the x-axis frequency value."""
         return self.frequency_x.value()
-
-    def get_frequency_y(self) -> float:
-        """Gets the y-axis frequency value."""
-        return self.frequency_y.value()
 
     def get_angle(self) -> float:
         """Gets the angle value."""

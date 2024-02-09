@@ -103,24 +103,21 @@ class Sine2D(Signal):
 
     Attributes:
         frequency_x (float): The frequency of the sine wave along the x-axis.
-        frequency_y (float): The frequency of the sine wave along the y-axis.
         angle (float): The angle of rotation in degrees.
     """
 
-    def __init__(self, frequency_x, frequency_y, angle, amplitude=0):
+    def __init__(self, frequency_x, angle, amplitude=0):
         """
         Initializes a Sine2D object.
 
         Parameters:
             frequency_x (float): The frequency of the sine wave along the x-axis.
-            frequency_y (float): The frequency of the sine wave along the y-axis.
             angle (float): The angle of rotation in degrees.
             amplitude (float, optional): The amplitude of the sine wave.
             Default to 0.
         """
         super().__init__(amplitude)
         self.frequency_x = frequency_x
-        self.frequency_y = frequency_y
         self.angle = angle
 
     def signal_to_text(self):
@@ -145,5 +142,6 @@ class Sine2D(Signal):
         """
         values = np.arange(size)
         x, y = np.meshgrid(values, values)
-        return np.sin(2 * np.pi * (x * np.cos(np.deg2rad(self.angle)) * self.frequency_x
-                                   + y * np.sin(np.deg2rad(self.angle)) * self.frequency_y) / size)
+        return np.sin(2*np.pi*(x*np.cos(np.deg2rad(self.angle)) * self.frequency_x + y*np.sin(np.deg2rad(self.angle))
+                               * self.frequency_x) / size)
+

@@ -50,7 +50,7 @@
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <property name="documentMode">
          <bool>false</bool>
@@ -836,12 +836,15 @@ font: 75 italic bold 12pt &quot;Century Gothic&quot;;}</string>
 font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  </property>
                  <property name="text">
-                  <string>Częstotliwość X[Hz]:</string>
+                  <string>Częstotliwość przestrzenna [Hz]:</string>
                  </property>
                 </widget>
                </item>
                <item row="2" column="0">
                 <widget class="QDoubleSpinBox" name="frequency_x">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Częstotliwość przestrzenna odpowiada za gęstość pasków gradientu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">QDoubleSpinBox {
     /* Background color */
@@ -869,45 +872,6 @@ QDoubleSpinBox:disabled {
                 </widget>
                </item>
                <item row="3" column="0">
-                <widget class="QLabel" name="label_3">
-                 <property name="styleSheet">
-                  <string notr="true">QLabel{
-font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
-                 </property>
-                 <property name="text">
-                  <string>Częstotliwość Y[Hz]:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QDoubleSpinBox" name="frequency_y">
-                 <property name="styleSheet">
-                  <string notr="true">QDoubleSpinBox {
-    /* Background color */
-    background-color: #f0f0f0;
-    /* Border */
-    border: 1px solid #3498db;
-    border-radius: 5px;
-    /* Text color */
-    color: #333;
-    /* Padding */
-    padding: 1px;
-}
-QDoubleSpinBox:disabled {
-    color: gray;           /* Text color when disabled */
-    background-color: #f0f0f0;  /* Background color when disabled */
-    border: 1px solid #d4d4d4; /* Border color when disabled */
-}</string>
-                 </property>
-                 <property name="maximum">
-                  <double>10000.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>5.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0">
                 <widget class="QLabel" name="label_4">
                  <property name="styleSheet">
                   <string notr="true">QLabel{
@@ -918,8 +882,11 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  </property>
                 </widget>
                </item>
-               <item row="6" column="0">
+               <item row="4" column="0">
                 <widget class="QDoubleSpinBox" name="angle">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Faza odpowiada za kąt nachylenia gradientu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">QDoubleSpinBox {
     /* Background color */
@@ -949,8 +916,11 @@ QDoubleSpinBox:disabled {
                  </property>
                 </widget>
                </item>
-               <item row="7" column="0" colspan="2">
+               <item row="5" column="0" colspan="2">
                 <widget class="QPushButton" name="draw_button">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Narysuj obraz z danych&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">QPushButton {
     /* Set the default appearance for the push button */
@@ -979,7 +949,7 @@ QPushButton:pressed {
                  </property>
                 </widget>
                </item>
-               <item row="13" column="0">
+               <item row="11" column="0">
                 <widget class="QCheckBox" name="image_file_checkBox">
                  <property name="toolTip">
                   <string>Po zaznaczeniu, analizie poddany zostanie wybrany obraz</string>
@@ -996,7 +966,7 @@ QPushButton:pressed {
                  </property>
                 </widget>
                </item>
-               <item row="14" column="0">
+               <item row="12" column="0">
                 <widget class="QLabel" name="image_file_label">
                  <property name="styleSheet">
                   <string notr="true">QLabel{
@@ -1013,7 +983,7 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  </property>
                 </widget>
                </item>
-               <item row="15" column="0">
+               <item row="13" column="0">
                 <widget class="QTextEdit" name="image_file_name">
                  <property name="toolTip">
                   <string>Ścieżka do pliku</string>
@@ -1042,7 +1012,7 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                  </property>
                 </widget>
                </item>
-               <item row="19" column="0">
+               <item row="17" column="0">
                 <widget class="QPushButton" name="choose_image_file_button">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Otwórz eksplorator plików w celu wyboru pliku&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1075,7 +1045,7 @@ QPushButton:pressed {
                  </property>
                 </widget>
                </item>
-               <item row="20" column="0" colspan="2">
+               <item row="18" column="0" colspan="2">
                 <widget class="QPushButton" name="dft_2d_button">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż okno z wykresem DFT&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1108,7 +1078,7 @@ QPushButton:pressed {
                  </property>
                 </widget>
                </item>
-               <item row="21" column="0" colspan="2">
+               <item row="19" column="0" colspan="2">
                 <widget class="QPushButton" name="dct_2d_button">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż okno z wykresem DCT&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
