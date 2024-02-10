@@ -138,7 +138,7 @@ class SineHandler(SignalsHandler):
         """
         text = ''
         if self.signal_amount == 0:
-            text = 'Select parameters, then add a signal to display the plot.'
+            text = 'Wybierz parametry, a następnie dodaj sygnał'
         else:
             for label in self.signals_labels:
                 text += label
