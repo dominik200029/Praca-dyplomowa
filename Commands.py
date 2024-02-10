@@ -152,7 +152,7 @@ class UpdateSignalPlotCommand(Command):
         """
         Executes the command to update the signal plot.
         """
-        if self.receiver.is_signal_from_file:
+        if self.receiver.is_signal_from_file and self.receiver.wav_filepath is not None:
             self.receiver.collect_data_from_file(self.signals_handler)
         else:
             self.receiver.collect_data(self.controller)

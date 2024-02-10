@@ -166,7 +166,7 @@ class Receiver:
 
     def perform_dft(self):
         """Performs the discrete Fourier transform."""
-        if self.is_signal_from_file and self.wave is not None:
+        if self.is_signal_from_file and self.wave is not None and self.wav_filepath is not None:
             self.dft_data = FFTAnalyzer(self.wave).calculate()
         elif self.sampled_wave is not None:
             self.dft_data = FFTAnalyzer(self.sampled_wave).calculate()
@@ -178,7 +178,7 @@ class Receiver:
 
     def perform_dct(self):
         """Performs the discrete cosine transform."""
-        if self.is_signal_from_file and self.wave is not None:
+        if self.is_signal_from_file and self.wave is not None and self.wav_filepath is not None:
             self.dct_data = DCTAnalyzer(self.wave).calculate()
         elif self.sampled_wave is not None:
             self.dct_data = DCTAnalyzer(self.sampled_wave).calculate()
@@ -195,9 +195,12 @@ class Receiver:
         Parameters:
             canvas: The canvas to draw on.
         """
+        signal_plot, sampled_signal_plot = None, None
         if self.is_signal_from_file:
+            if self.wav_filepath is None:
+                Window.plot_warning(canvas)
+                return
             signal_plot = Plot(None, self.wave, 'Czas[s]', 'Amplituda', 'Sygnał oryginalny')
-            sampled_signal_plot = None
             if self.wave is None or (self.wave == 0).all():
                 Window.plot_warning(canvas)
                 return
@@ -209,7 +212,8 @@ class Receiver:
                 Window.plot_warning(canvas)
                 return
         canvas.clear()
-        signal_plot.create_on_canvas(canvas)
+        if signal_plot:
+            signal_plot.create_on_canvas(canvas)
         if sampled_signal_plot:
             sampled_signal_plot.create_on_canvas(canvas)
 
@@ -225,6 +229,9 @@ class Receiver:
                 Window.plot_warning(canvas)
                 return
             if self.is_signal_from_file:
+                if self.wav_filepath is None:
+                    Window.plot_warning(canvas)
+                    return
                 self.dft_frequencies = FFTAxis(self.samples_number, self.sampling_frequency).generate()
                 dft_plot = Plot(self.dft_frequencies, np.abs(self.dft_data), 'Częstotliwość[Hz]', 'Amplituda',
                                 'Moduł DFT')
@@ -247,6 +254,9 @@ class Receiver:
                 Window.plot_warning(canvas)
                 return
             if self.is_signal_from_file:
+                if self.wav_filepath is None:
+                    Window.plot_warning(canvas)
+                    return
                 idft_plot = Plot(None, np.real(self.idft_data), 'Czas[s]', 'Amplituda', 'IDFT')
             else:
                 idft_plot = StemPlot(self.discrete_time_axis, np.real(self.idft_data), 'Czas[s]', 'Amplituda', 'IDFT')
@@ -266,6 +276,9 @@ class Receiver:
                 Window.plot_warning(canvas)
                 return
             if self.is_signal_from_file:
+                if self.wav_filepath is None:
+                    Window.plot_warning(canvas)
+                    return
                 self.dct_frequencies = DCTAxis(self.samples_number, self.sampling_frequency).generate()
                 dct_plot = Plot(self.dct_frequencies, np.abs(self.dct_data), 'Częstotliwość[Hz]', 'Amplituda',
                                 'Moduł DCT')
@@ -288,6 +301,9 @@ class Receiver:
                 Window.plot_warning(canvas)
                 return
             if self.is_signal_from_file:
+                if self.wav_filepath is None:
+                    Window.plot_warning(canvas)
+                    return
                 idct_plot = Plot(None, np.real(self.idct_data), 'Czas[s]', 'Amplituda', 'IDCT')
             else:
                 idct_plot = StemPlot(self.discrete_time_axis, np.real(self.idct_data), 'Czas[s]', 'Amplituda', 'IDCT')
