@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1213</width>
+    <width>1077</width>
     <height>1131</height>
    </rect>
   </property>
@@ -841,7 +841,7 @@ font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QDoubleSpinBox" name="frequency_x">
+                <widget class="QDoubleSpinBox" name="spatial_frequency">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Częstotliwość przestrzenna odpowiada za gęstość pasków gradientu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
@@ -916,136 +916,7 @@ QDoubleSpinBox:disabled {
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0" colspan="2">
-                <widget class="QPushButton" name="draw_button">
-                 <property name="toolTip">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Narysuj obraz z danych&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton {
-    /* Set the default appearance for the push button */
-    background-color: #3498db;
-    border: 2px solid #3498db;
-    border-radius: 5px;
-    color: #fff;
-    padding: 8px 16px;
-    font-weight: bold;
-}
-
-QPushButton:hover {
-    /* Change style when the mouse hovers over the button */
-    background-color: #207dbb;
-    border: 2px solid #207dbb;
-}
-
-QPushButton:pressed {
-    /* Change style when the button is pressed */
-    background-color: #266197;
-    border: 2px solid #266197;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Narysuj </string>
-                 </property>
-                </widget>
-               </item>
-               <item row="11" column="0">
-                <widget class="QCheckBox" name="image_file_checkBox">
-                 <property name="toolTip">
-                  <string>Po zaznaczeniu, analizie poddany zostanie wybrany obraz</string>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QCheckBox:disabled {
-    color: gray;           /* Text color when disabled */
-    background-color: #f0f0f0;  /* Background color when disabled */
-    border: 1px solid #d4d4d4; /* Border color when disabled */
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Obraz z pliku</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="12" column="0">
-                <widget class="QLabel" name="image_file_label">
-                 <property name="styleSheet">
-                  <string notr="true">QLabel{
-font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
-                 </property>
-                 <property name="text">
-                  <string>Ścieżka do pliku:</string>
-                 </property>
-                 <property name="textFormat">
-                  <enum>Qt::RichText</enum>
-                 </property>
-                 <property name="scaledContents">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="13" column="0">
-                <widget class="QTextEdit" name="image_file_name">
-                 <property name="toolTip">
-                  <string>Ścieżka do pliku</string>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QTextEdit {
-    /* Background color */
-    background-color: #f0f0f0;
-    /* Border */
-    border: 1px solid #3498db;
-    border-radius: 5px;
-    /* Text color */
-    color: #333;
-    /* Padding */
-    padding: 1px;
-}</string>
-                 </property>
-                 <property name="readOnly">
-                  <bool>true</bool>
-                 </property>
-                 <property name="acceptRichText">
-                  <bool>true</bool>
-                 </property>
-                 <property name="placeholderText">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="17" column="0">
-                <widget class="QPushButton" name="choose_image_file_button">
-                 <property name="toolTip">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Otwórz eksplorator plików w celu wyboru pliku&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton {
-    /* Set the default appearance for the push button */
-    background-color: #3498db;
-    border: 2px solid #3498db;
-    border-radius: 5px;
-    color: #fff;
-    padding: 8px 16px;
-    font-weight: bold;
-}
-
-QPushButton:hover {
-    /* Change style when the mouse hovers over the button */
-    background-color: #207dbb;
-    border: 2px solid #207dbb;
-}
-
-QPushButton:pressed {
-    /* Change style when the button is pressed */
-    background-color: #266197;
-    border: 2px solid #266197;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Wybierz plik</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="18" column="0" colspan="2">
+               <item row="21" column="0" colspan="2">
                 <widget class="QPushButton" name="dft_2d_button">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż okno z wykresem DFT&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1078,7 +949,7 @@ QPushButton:pressed {
                  </property>
                 </widget>
                </item>
-               <item row="19" column="0" colspan="2">
+               <item row="22" column="0" colspan="2">
                 <widget class="QPushButton" name="dct_2d_button">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż okno z wykresem DCT&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1108,6 +979,165 @@ QPushButton:pressed {
                  </property>
                  <property name="text">
                   <string>2D DCT</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0" colspan="2">
+                <widget class="QPushButton" name="draw_button">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Narysuj obraz z danych&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}
+QPushButton:disabled{
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Narysuj </string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0">
+                <widget class="QLabel" name="image_file_label">
+                 <property name="styleSheet">
+                  <string notr="true">QLabel{
+font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+                 </property>
+                 <property name="text">
+                  <string>Ścieżka do pliku:</string>
+                 </property>
+                 <property name="textFormat">
+                  <enum>Qt::RichText</enum>
+                 </property>
+                 <property name="scaledContents">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="0" colspan="2">
+                <widget class="QPushButton" name="choose_image_file_button">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Otwórz eksplorator plików w celu wyboru pliku&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Wybierz plik</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="0" colspan="2">
+                <widget class="QTextEdit" name="image_file_name">
+                 <property name="toolTip">
+                  <string>Ścieżka do pliku</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QTextEdit {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}</string>
+                 </property>
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                 <property name="acceptRichText">
+                  <bool>true</bool>
+                 </property>
+                 <property name="placeholderText">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="10" column="0" colspan="2">
+                <widget class="QPushButton" name="draw_from_file_button">
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}
+QPushButton:disabled{
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Narysuj z pliku</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="14" column="0" colspan="2">
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string/>
                  </property>
                 </widget>
                </item>

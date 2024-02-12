@@ -169,18 +169,15 @@ class ImagePlot(Graph):
     - create_on_canvas(self, canvas: Canvas): Create an image plot on a given canvas.
     """
 
-    def __init__(self, x, y, xlabel, ylabel, title):
+    def __init__(self, y, title):
         """
         Initialize an ImagePlot instance.
 
         Parameters:
-            x: List or array-like, x-axis data
             y: List or array-like, y-axis data
-            xlabel: str, label for x-axis
-            ylabel: str, label for y-axis
             title: str, title of the image plot
         """
-        super().__init__(x, y, xlabel, ylabel, title)
+        super().__init__(None, y, None, None, title)
 
     def create_on_canvas(self, canvas: Canvas):
         """

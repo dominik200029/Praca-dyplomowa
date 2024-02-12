@@ -146,10 +146,6 @@ class MainWindowController(Window):
         """Checks the state of the WAV file check box."""
         return self.file_checkBox.isChecked()
 
-    def jpg_file_check_box_state(self) -> bool:
-        """Checks the state of the JPG file check box."""
-        return self.image_file_checkBox.isChecked()
-
     def get_jpg_file(self):
         """Gets the JPG file path."""
         filepath = self.image_file_name.toPlainText()
@@ -159,9 +155,9 @@ class MainWindowController(Window):
             self.print_error('Wybierz plik JPG')
             return None
 
-    def get_frequency_x(self) -> float:
+    def get_spatial_frequency(self) -> float:
         """Gets the x-axis frequency value."""
-        return self.frequency_x.value()
+        return self.spatial_frequency.value()
 
     def get_angle(self) -> float:
         """Gets the angle value."""
@@ -223,6 +219,9 @@ class DFTWindowController(Window):
         Returns:
             None
         """
+        self.low_cut_off_frequency_spinBox.setDisabled(low_cut_off_frequency_access)
+        self.high_cut_off_frequency_spinBox.setDisabled(high_cut_off_frequency_access)
+        self.cut_off_frequency_spinBox.setDisabled(cut_off_frequency_access)
 
 
 class DCTWindowController(DFTWindowController):
@@ -281,6 +280,12 @@ class DFT2DWindowController(Window):
     def get_filters_list_index(self) -> int:
         """Gets the index of the selected filter from the filters list."""
         return self.filters_list.currentIndex()
+
+    def get_cut_off_spatial(self) -> float:
+        return self.cut_off_spatial.value()
+
+    def get_log_radio_button_state(self) -> bool:
+        return self.log_radio_button.isChecked()
 
 
 class DCT2DWindowController(DFT2DWindowController):

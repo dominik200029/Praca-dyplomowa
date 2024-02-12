@@ -27,36 +27,48 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_5">
-       <item row="9" column="0">
-        <widget class="QSpinBox" name="column">
+       <item row="0" column="0">
+        <widget class="QLabel" name="filters_label">
          <property name="styleSheet">
-          <string notr="true">QSpinBox
- {
-    /* Background color */
-    background-color: #f0f0f0;
-    /* Border */
-    border: 1px solid #3498db;
-    border-radius: 5px;
-    /* Text color */
-    color: #333;
-    /* Padding */
-    padding: 1px;
-}
-QSpinBox:disabled {
-    color: gray;           /* Text color when disabled */
-    background-color: #f0f0f0;  /* Background color when disabled */
-    border: 1px solid #d4d4d4; /* Border color when disabled */
-}</string>
+          <string notr="true">QLabel{
+font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
          </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>64</number>
+         <property name="text">
+          <string>Rodzaj filtru:</string>
          </property>
         </widget>
        </item>
-       <item row="11" column="0" colspan="5">
+       <item row="13" column="0" colspan="5">
+        <widget class="QPushButton" name="reset_button">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    /* Set the default appearance for the push button */
+    background-color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 12px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    /* Change style when the mouse hovers over the button */
+    background-color: #207dbb;
+    border: 2px solid #207dbb;
+}
+
+QPushButton:pressed {
+    /* Change style when the button is pressed */
+    background-color: #266197;
+    border: 2px solid #266197;
+}</string>
+         </property>
+         <property name="text">
+          <string>Reset</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0" colspan="5">
         <widget class="QPushButton" name="apply_button">
          <property name="styleSheet">
           <string notr="true">QPushButton {
@@ -87,95 +99,39 @@ QPushButton:pressed {
          </property>
         </widget>
        </item>
-       <item row="12" column="0" colspan="5">
-        <widget class="QPushButton" name="reset_button">
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-    /* Set the default appearance for the push button */
-    background-color: #3498db;
-    border: 2px solid #3498db;
-    border-radius: 5px;
-    color: #fff;
-    padding: 8px 12px;
-    font-weight: bold;
-}
-
-QPushButton:hover {
-    /* Change style when the mouse hovers over the button */
-    background-color: #207dbb;
-    border: 2px solid #207dbb;
-}
-
-QPushButton:pressed {
-    /* Change style when the button is pressed */
-    background-color: #266197;
-    border: 2px solid #266197;
-}</string>
-         </property>
-         <property name="text">
-          <string>Reset</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="column_label">
+       <item row="8" column="3">
+        <widget class="QLabel" name="label_2">
          <property name="styleSheet">
           <string notr="true">QLabel{
 font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
          </property>
          <property name="text">
-          <string>Kolumna:</string>
+          <string>Skala wykresu DCT:</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="row_label">
+       <item row="9" column="3">
+        <widget class="QRadioButton" name="log_radio_button">
          <property name="styleSheet">
-          <string notr="true">QLabel{
-font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+          <string notr="true">QRadioButton{
+font: 75 italic 9pt &quot;Century Gothic&quot;;}</string>
          </property>
          <property name="text">
-          <string>Wiersz:</string>
+          <string>Logarytmiczna</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="filters_label">
+       <item row="9" column="4">
+        <widget class="QRadioButton" name="linear_radio_button">
          <property name="styleSheet">
-          <string notr="true">QLabel{
-font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+          <string notr="true">QRadioButton{
+font: 75 italic 9pt &quot;Century Gothic&quot;;}</string>
          </property>
          <property name="text">
-          <string>Rodzaj filtru:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QSpinBox" name="row">
-         <property name="styleSheet">
-          <string notr="true">QSpinBox
- {
-    /* Background color */
-    background-color: #f0f0f0;
-    /* Border */
-    border: 1px solid #3498db;
-    border-radius: 5px;
-    /* Text color */
-    color: #333;
-    /* Padding */
-    padding: 1px;
-}
-QSpinBox:disabled {
-    color: gray;           /* Text color when disabled */
-    background-color: #f0f0f0;  /* Background color when disabled */
-    border: 1px solid #d4d4d4; /* Border color when disabled */
-}</string>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>64</number>
+          <string>Liniowa</string>
          </property>
         </widget>
        </item>
@@ -219,6 +175,103 @@ QSpinBox:disabled {
            <string>Górnoprzepustowy</string>
           </property>
          </item>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label">
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+font: 75 italic 10pt &quot;Century Gothic&quot;;}</string>
+         </property>
+         <property name="text">
+          <string>Parametry graniczne:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="row_label">
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+font: 75 italic 9pt &quot;Century Gothic&quot;;}</string>
+         </property>
+         <property name="text">
+          <string>Wiersz[px]:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLabel" name="column_label">
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+font: 75 italic 9pt &quot;Century Gothic&quot;;}</string>
+         </property>
+         <property name="text">
+          <string>Kolumna[px]:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QSpinBox" name="row">
+         <property name="styleSheet">
+          <string notr="true">QSpinBox
+ {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>64</number>
+         </property>
+         <property name="value">
+          <number>32</number>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QSpinBox" name="column">
+         <property name="styleSheet">
+          <string notr="true">QSpinBox
+ {
+    /* Background color */
+    background-color: #f0f0f0;
+    /* Border */
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    /* Text color */
+    color: #333;
+    /* Padding */
+    padding: 1px;
+}
+QSpinBox:disabled {
+    color: gray;           /* Text color when disabled */
+    background-color: #f0f0f0;  /* Background color when disabled */
+    border: 1px solid #d4d4d4; /* Border color when disabled */
+}</string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>64</number>
+         </property>
+         <property name="value">
+          <number>32</number>
+         </property>
         </widget>
        </item>
       </layout>

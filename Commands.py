@@ -239,8 +239,9 @@ class FilterDFTCommand(Command):
         """
         self.receiver.filter_dft(self.controller)
         self.receiver.filter_idft()
-        self.receiver.filtered_dft_plot(self.controller.dft_canvas)
-        self.receiver.filtered_idft_plot(self.controller.idft_canvas)
+        if self.controller.get_filters_list_index() != 0:
+            self.receiver.filtered_dft_plot(self.controller.dft_canvas)
+            self.receiver.filtered_idft_plot(self.controller.idft_canvas)
 
 
 class FilterDCTCommand(Command):
@@ -265,8 +266,9 @@ class FilterDCTCommand(Command):
         """
         self.receiver.filter_dct(self.controller)
         self.receiver.filter_idct()
-        self.receiver.filtered_dct_plot(self.controller.dct_canvas)
-        self.receiver.filtered_idct_plot(self.controller.idct_canvas)
+        if self.controller.get_filters_list_index() != 0:
+            self.receiver.filtered_dct_plot(self.controller.dct_canvas)
+            self.receiver.filtered_idct_plot(self.controller.idct_canvas)
 
 
 class ResetDFTCommand(Command):
@@ -481,7 +483,7 @@ class UpdateDFT2DPlotsCommand(Command):
         Executes the command to update the 2D DFT plots.
         """
         self.receiver.perform_2d_dft()
-        self.receiver.plot_2d_dft(self.controller.dft2D_canvas)
+        self.receiver.plot_2d_dft(self.controller.dft2D_canvas, self.controller)
         self.receiver.perform_2d_idft()
         self.receiver.plot_2d_idft(self.controller.idft2D_canvas)
 
@@ -507,9 +509,10 @@ class FilterFFT2DCommand(Command):
         Executes the command to filter the 2D FFT plot.
         """
         self.receiver.filter_2d_dft(self.controller)
-        self.receiver.plot_filtered_2d_dft(self.controller.dft2D_canvas)
         self.receiver.filter_2d_idft()
-        self.receiver.plot_filtered_2d_idft(self.controller.idft2D_canvas)
+        if self.controller.get_filters_list_index() != 0:
+            self.receiver.plot_filtered_2d_dft(self.controller.dft2D_canvas, self.controller)
+            self.receiver.plot_filtered_2d_idft(self.controller.idft2D_canvas)
 
 
 class UpdateDCT2DPlotsCommand(Command):
@@ -533,7 +536,7 @@ class UpdateDCT2DPlotsCommand(Command):
         Executes the command to update the 2D DCT plots.
         """
         self.receiver.perform_2d_dct()
-        self.receiver.plot_2d_dct(self.controller.dct2D_canvas)
+        self.receiver.plot_2d_dct(self.controller.dct2D_canvas, self.controller)
         self.receiver.perform_2d_idct()
         self.receiver.plot_2d_idct(self.controller.idct2D_canvas)
 
@@ -558,7 +561,7 @@ class ResetDFT2DCommand(Command):
         """
         Executes the command to reset the 2D DFT plots.
         """
-        self.receiver.plot_2d_dft(self.controller.dft2D_canvas)
+        self.receiver.plot_2d_dft(self.controller.dft2D_canvas, self.controller)
         self.receiver.plot_2d_idft(self.controller.idft2D_canvas)
 
 
@@ -583,9 +586,10 @@ class FilterDCT2DCommand(Command):
         Executes the command to filter the 2D DCT plot.
         """
         self.receiver.filter_2d_dct(self.controller)
-        self.receiver.plot_filtered_2d_dct(self.controller.dct2D_canvas)
         self.receiver.filter_2d_idct()
-        self.receiver.plot_filtered_2d_idct(self.controller.idct2D_canvas)
+        if self.controller.get_filters_list_index() != 0:
+            self.receiver.plot_filtered_2d_dct(self.controller.dct2D_canvas, self.controller)
+            self.receiver.plot_filtered_2d_idct(self.controller.idct2D_canvas)
 
 
 class ResetDCT2DCommand(Command):
@@ -608,5 +612,29 @@ class ResetDCT2DCommand(Command):
         """
         Executes the command to reset the 2D DCT plots.
         """
-        self.receiver.plot_2d_dct(self.controller.dct2D_canvas)
+        self.receiver.plot_2d_dct(self.controller.dct2D_canvas, self.controller)
         self.receiver.plot_2d_idct(self.controller.idct2D_canvas)
+
+
+class ChangeDFT2DScaleCommand(Command):
+    def __init__(self, receiver, controller):
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        if self.receiver.filtered_plot_dft:
+            self.receiver.plot_filtered_2d_dft(self.controller.dft2D_canvas, self.controller)
+        else:
+            self.receiver.plot_2d_dft(self.controller.dft2D_canvas, self.controller)
+
+
+class ChangeDCT2DScaleCommand(Command):
+    def __init__(self, receiver, controller):
+        super().__init__(receiver)
+        self.controller = controller
+
+    def execute(self):
+        if self.receiver.filtered_plot_dct:
+            self.receiver.plot_filtered_2d_dct(self.controller.dct2D_canvas, self.controller)
+        else:
+            self.receiver.plot_2d_dct(self.controller.dct2D_canvas, self.controller)

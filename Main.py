@@ -11,7 +11,8 @@ from Commands import (ChooseWavFileCommand, AddSignalCommand, DeleteSignalComman
                       FilterDCTCommand, HandleFileCheckBoxCommand, ResetDCTCommand,
                       UpdateSignalPlotCommand, UpdateDFTPlotCommand, UpdateDCTPlotCommand, ChooseJpgFileCommand,
                       UpdateImagePlotCommand, UpdateDFT2DPlotsCommand, FilterFFT2DCommand, UpdateDCT2DPlotsCommand,
-                      ResetDFT2DCommand, FilterDCT2DCommand, ResetDCT2DCommand, UpdateSineImagePlotCommand)
+                      ResetDFT2DCommand, FilterDCT2DCommand, ResetDCT2DCommand, UpdateSineImagePlotCommand,
+                      ChangeDFT2DScaleCommand, ChangeDCT2DScaleCommand)
 
 
 class App(QApplication):
@@ -80,6 +81,9 @@ class App(QApplication):
 
         self.handle_dft_filters_list_command = HandleFiltersListCommand(self.receiver, self.dft_window)
         self.handle_dct_filters_list_command = HandleFiltersListCommand(self.receiver, self.dct_window)
+
+        self.change_dft_plot_scale_command = ChangeDFT2DScaleCommand(self.receiver_2d, self.dft_2d_window)
+        self.change_dct_plot_scale_command = ChangeDCT2DScaleCommand(self.receiver_2d, self.dct_2d_window)
 
         self.handle_file_check_box_command = HandleFileCheckBoxCommand(self.receiver, self.main_window)
 
@@ -186,11 +190,6 @@ class App(QApplication):
         self.dft_2d_button_invoker.store_commands(self.create_2d_dft_window_command)
         self.connect_invoker_to_button(self.main_window.dft_2d_button, self.dft_2d_button_invoker)
 
-        self.image_from_file_check_box_invoker = Invoker()
-        self.image_from_file_check_box_invoker.store_commands(self.update_image_command, self.update_2d_dft_command,
-                                                              self.update_2d_dct_command)
-        self.connect_invoker_to_check_box(self.main_window.image_file_checkBox, self.image_from_file_check_box_invoker)
-
         self.dft_2d_apply_button_invoker = Invoker()
         self.dft_2d_apply_button_invoker.store_commands(self.dft_2d_filter_command)
         self.connect_invoker_to_button(self.dft_2d_window.apply_button, self.dft_2d_apply_button_invoker)
@@ -215,6 +214,19 @@ class App(QApplication):
         self.draw_button_invoker.store_commands(self.update_sine_image_command, self.update_2d_dft_command,
                                                 self.update_2d_dct_command)
         self.connect_invoker_to_button(self.main_window.draw_button, self.draw_button_invoker)
+
+        self.dft_log_radio_button_invoker = Invoker()
+        self.dft_log_radio_button_invoker.store_commands(self.change_dft_plot_scale_command)
+        self.connect_invoker_to_radio_button(self.dft_2d_window.log_radio_button, self.dft_log_radio_button_invoker)
+
+        self.dct_log_radio_button_invoker = Invoker()
+        self.dct_log_radio_button_invoker.store_commands(self.change_dct_plot_scale_command)
+        self.connect_invoker_to_radio_button(self.dct_2d_window.log_radio_button, self.dct_log_radio_button_invoker)
+
+        self.draw_from_file_button_invoker = Invoker()
+        self.draw_from_file_button_invoker.store_commands(self.update_image_command, self.update_2d_dft_command,
+                                                          self.update_2d_dct_command)
+        self.connect_invoker_to_button(self.main_window.draw_from_file_button, self.draw_from_file_button_invoker)
 
     @staticmethod
     def connect_invoker_to_button(button, invoker: Invoker):
@@ -287,6 +299,10 @@ class App(QApplication):
             None
         """
         combo_box.currentIndexChanged.connect(invoker.execute)
+
+    @staticmethod
+    def connect_invoker_to_radio_button(radio_button, invoker: Invoker):
+        radio_button.toggled.connect(invoker.execute)
 
     @staticmethod
     def connect_invoker_to_check_box(check_box, invoker: Invoker):

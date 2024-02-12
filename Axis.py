@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 from scipy.fftpack import fftfreq
 
+
 class Axis(ABC):
     """
     Abstract base class for representing an axis.
@@ -68,7 +69,7 @@ class TimeAxis(Axis):
         start = 0
         step = self.time_step
         stop = (self.samples_number - 1) * (1 / self.sampling_frequency)
-        return np.arange(start, stop, step)
+        return np.arange(start, stop + step, step)
 
 
 class DiscreteTimeAxis(Axis):
