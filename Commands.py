@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
 
-from abc import ABC, abstractmethod
-
 
 class Command(ABC):
     """
@@ -617,11 +615,38 @@ class ResetDCT2DCommand(Command):
 
 
 class ChangeDFT2DScaleCommand(Command):
+    """
+    A command class for changing the scale of a 2D Discrete Fourier Transform (DFT) plot.
+
+    This command allows switching between different scale representations
+    of a 2D DFT plot based on the current state of the receiver.
+
+    Attributes:
+            receiver (Receiver): The receiver object responsible for business logic.
+            controller (Controller): The controller object managing the GUI.
+
+    Methods:
+        execute(): Executes the command, plotting the appropriate 2D DFT based on the receiver's state.
+    """
+
     def __init__(self, receiver, controller):
+        """
+        Initializes the ChangeDFT2DScaleCommand.
+
+        Args:
+            receiver (Receiver): The receiver object responsible for business logic.
+            controller (Controller): The controller object managing the GUI.
+        """
         super().__init__(receiver)
         self.controller = controller
 
     def execute(self):
+        """
+        Executes the command.
+
+        Depending on the state of the receiver, plots either the filtered 2D DFT
+        or the regular 2D DFT using the provided controller's canvas.
+        """
         if self.receiver.filtered_plot_dft:
             self.receiver.plot_filtered_2d_dft(self.controller.dft2D_canvas, self.controller)
         else:
@@ -629,11 +654,38 @@ class ChangeDFT2DScaleCommand(Command):
 
 
 class ChangeDCT2DScaleCommand(Command):
+    """
+    A command class for changing the scale of a 2D Discrete Cosine Transform (DCT) plot.
+
+    This command allows switching between different scale representations
+    of a 2D DCT plot based on the current state of the receiver.
+
+    Attributes:
+            receiver (Receiver): The receiver object responsible for business logic.
+            controller (Controller): The controller object managing the GUI.
+
+    Methods:
+        execute(): Executes the command, plotting the appropriate 2D DCT based on the receiver's state.
+    """
+
     def __init__(self, receiver, controller):
+        """
+        Initializes the ChangeDCT2DScaleCommand.
+
+        Args:
+            receiver (Receiver): The receiver object responsible for business logic.
+            controller (Controller): The controller object managing the GUI.
+        """
         super().__init__(receiver)
         self.controller = controller
 
     def execute(self):
+        """
+        Executes the command.
+
+        Depending on the state of the receiver, plots either the filtered 2D DCT
+        or the regular 2D DCT using the provided controller's canvas.
+        """
         if self.receiver.filtered_plot_dct:
             self.receiver.plot_filtered_2d_dct(self.controller.dct2D_canvas, self.controller)
         else:

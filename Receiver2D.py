@@ -5,6 +5,7 @@ from Graph import ImagePlot
 from Receiver import Receiver
 from TransformAnalyzer import FFT2DAnalyzer, IFFT2DAnalyzer, DCT2DAnalyzer, IDCT2DAnalyzer
 from Signal import Sine2D
+from GaussianFilters import LowPassGaussianFilter, HighPassGaussianFilter
 
 
 class Receiver2D(Receiver):
@@ -101,8 +102,7 @@ class Receiver2D(Receiver):
         spatial_frequency = controller.get_spatial_frequency()
         angle = controller.get_angle()
 
-        signal = Sine2D(spatial_frequency, angle).get_wave(size=64)
-        self.image = signal + 0.5  # add DC component
+        self.image = Sine2D(spatial_frequency, angle).get_wave(size=64) + 1  # add DC component
 
     def perform_2d_dft(self):
         """Performs the two-dimensional Fourier transform."""
@@ -145,28 +145,19 @@ class Receiver2D(Receiver):
         """Filters the two-dimensional Fourier transform."""
         filter_type = controller.filters_list.currentIndex()
         mask = np.zeros_like(self.dft2)
+        row_index = controller.get_column()
+        column_index = controller.get_row()
+        if row_index is not None and column_index is not None:
+            x, y = np.meshgrid(np.arange(mask.shape[0]), np.arange(mask.shape[1]))
+            center_x, center_y = row_index, column_index
+            cut_off_frequency = controller.get_cut_off_spatial()
+            x_cord = x - center_x
+            y_cord = y - center_y
 
-        if filter_type == 1:  # Gaussian Low-pass filter
-            row_index = controller.get_column()
-            column_index = controller.get_row()
-            if row_index is not None and column_index is not None:
-                x, y = np.meshgrid(np.arange(mask.shape[0]), np.arange(mask.shape[1]))
-                center_x, center_y = row_index, column_index
-                sigma = controller.get_cut_off_spatial()
-                x_cord = x - center_x
-                y_cord = y - center_y
-                mask = (np.exp(-(x_cord ** 2 + y_cord ** 2) / (2 * sigma ** 2))) / (2 * np.pi * sigma ** 2)
-
-        elif filter_type == 2:  # Gaussian High-pass filter
-            row_index = controller.get_column()
-            column_index = controller.get_row()
-            if row_index is not None and column_index is not None:
-                x, y = np.meshgrid(np.arange(mask.shape[0]), np.arange(mask.shape[1]))
-                center_x, center_y = row_index, column_index
-                sigma = controller.get_cut_off_spatial()
-                x_cord = x - center_x
-                y_cord = y - center_y
-                mask = (1 - np.exp(-(x_cord ** 2 + y_cord ** 2) / (2 * sigma ** 2))) / (2 * np.pi * sigma ** 2)
+            if filter_type == 1:  # Gaussian Low-pass filter
+                mask = LowPassGaussianFilter(x_cord, y_cord, cut_off_frequency).apply()
+            elif filter_type == 2:  # Gaussian High-pass filter
+                mask = HighPassGaussianFilter(x_cord, y_cord, cut_off_frequency).apply()
         else:
             controller.print_error('Wybierz filtr')
             return
@@ -233,21 +224,15 @@ class Receiver2D(Receiver):
         """Filters the two-dimensional discrete cosine transform."""
         filter_type = controller.filters_list.currentIndex()
         mask = np.zeros_like(self.dct2)
-
-        if filter_type == 2:  # High-pass filter
-            row_index = controller.get_column()
-            column_index = controller.get_row()
-            if row_index is not None and column_index is not None:
-                mask[row_index:, :] = 1
-                mask[:, column_index:] = 1
-
-        elif filter_type == 1:  # Low-pass filter
-            row_index = controller.get_column()
-            column_index = controller.get_row()
-            if row_index is not None and column_index is not None:
+        row_index = controller.get_column()
+        column_index = controller.get_row()
+        if row_index is not None and column_index is not None:
+            if filter_type == 1:  # Low-pass filter
                 mask[:row_index, :] = 1
                 mask[:, :column_index] = 1
-
+            elif filter_type == 2:  # High-pass filter
+                mask[row_index:, :] = 1
+                mask[:, column_index:] = 1
         else:
             controller.print_error('Wybierz filtr')
             return

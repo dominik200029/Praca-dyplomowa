@@ -102,22 +102,22 @@ class Sine2D(Signal):
     A class representing a 2D sine wave signal.
 
     Attributes:
-        frequency_x (float): The frequency of the sine wave along the x-axis.
+        spatial_frequency (float): The frequency of the sine wave along the x-axis.
         angle (float): The angle of rotation in degrees.
     """
 
-    def __init__(self, frequency_x, angle, amplitude=0):
+    def __init__(self, spatial_frequency, angle, amplitude=0):
         """
         Initializes a Sine2D object.
 
         Parameters:
-            frequency_x (float): The frequency of the sine wave along the x-axis.
+            spatial_frequency (float): The frequency of the sine wave along the x-axis.
             angle (float): The angle of rotation in degrees.
             amplitude (float, optional): The amplitude of the sine wave.
             Default to 0.
         """
         super().__init__(amplitude)
-        self.frequency_x = frequency_x
+        self.spatial_frequency = spatial_frequency
         self.angle = angle
 
     def signal_to_text(self):
@@ -127,8 +127,17 @@ class Sine2D(Signal):
         Returns:
             str: Text representation of the 2D sine wave signal.
         """
-        # Currently not implemented
-        pass
+        spatial_frequency_text = str(int(self.spatial_frequency)) if self.spatial_frequency.is_integer() \
+            else str(self.spatial_frequency)
+
+        if self.angle == 0:
+            angle_text = ""
+        elif self.angle > 0:
+            angle_text = f"+{int(self.angle)}" if self.angle.is_integer() else f"+{self.angle}"
+        else:
+            angle_text = f"{int(self.angle)}" if self.angle.is_integer() else f"{self.angle}"
+
+        return f"sin(2π*x*cos({spatial_frequency_text})*y{angle_text})\n"
 
     def get_wave(self, size):
         """
@@ -142,6 +151,8 @@ class Sine2D(Signal):
         """
         values = np.arange(size)
         x, y = np.meshgrid(values, values)
-        return np.sin(2*np.pi*(x*np.cos(np.deg2rad(self.angle)) * self.frequency_x + y*np.sin(np.deg2rad(self.angle))
-                               * self.frequency_x) / size)
 
+        return np.sin(
+            2 * np.pi * (x * np.cos(np.deg2rad(self.angle)) * self.spatial_frequency +
+                         y * np.sin(np.deg2rad(self.angle)) * self.spatial_frequency) / size
+        )

@@ -6,6 +6,7 @@ from Graph import Plot, StemPlot
 from Signal import Sine
 from Axis import TimeAxis, DiscreteTimeAxis, FFTAxis, DCTAxis
 from TransformAnalyzer import FFTAnalyzer, IFFTAnalyzer, DCTAnalyzer, IDCTAnalyzer
+from Filters import LowPassFilter, HighPassFilter, BandPassFilter, BandStopFilter
 
 
 class Receiver:
@@ -321,40 +322,26 @@ class Receiver:
         filter_type = controller.filters_list.currentIndex()
         self.filtered_dft = np.copy(self.dft_data)
         indices_to_zero = []
-
-        if filter_type == 1:  # Low-pass filter
+        if filter_type == 1 or filter_type == 2:
             cut_off_frequency = controller.get_cut_off_frequency()
             if cut_off_frequency is not None:
-                indices_to_zero = np.where(np.abs(self.dft_frequencies) > cut_off_frequency)
-
-        elif filter_type == 2:  # High-pass filter
-            cut_off_frequency = controller.get_cut_off_frequency()
-            if cut_off_frequency is not None:
-                indices_to_zero = np.where(np.abs(self.dft_frequencies) < cut_off_frequency)
-
-        elif filter_type == 3:  # Band-pass filter
+                if filter_type == 1:  # Low-pass filter
+                    indices_to_zero = LowPassFilter(cut_off_frequency).apply(self.dft_frequencies)
+                elif filter_type == 2:  # High-pass filter
+                    indices_to_zero = HighPassFilter(cut_off_frequency).apply(self.dft_frequencies)
+        elif filter_type == 3 or filter_type == 4:
             low_cut_off_frequency = controller.get_low_cut_off_frequency()
             high_cut_off_frequency = controller.get_high_cut_off_frequency()
-            if low_cut_off_frequency >= high_cut_off_frequency:
-                controller.print_error('Dolna częstotliwość nie może być większa niż górna.')
-                return
             if low_cut_off_frequency is not None and high_cut_off_frequency is not None:
-                indices_to_zero = (
-                        (np.abs(self.dft_frequencies) < low_cut_off_frequency)
-                        | (np.abs(self.dft_frequencies) > high_cut_off_frequency)
-                )
-
-        elif filter_type == 4:  # Band-stop filter
-            low_cut_off_frequency = controller.get_low_cut_off_frequency()
-            high_cut_off_frequency = controller.get_high_cut_off_frequency()
-            if low_cut_off_frequency >= high_cut_off_frequency:
-                controller.print_error('Dolna częstotliwość nie może być większa niż górna.')
-                return
-            if low_cut_off_frequency is not None and high_cut_off_frequency is not None:
-                indices_to_zero = (
-                        (low_cut_off_frequency < np.abs(self.dft_frequencies))
-                        & (np.abs(self.dft_frequencies) < high_cut_off_frequency)
-                )
+                if low_cut_off_frequency >= high_cut_off_frequency:
+                    controller.print_error('Dolna częstotliwość nie może być większa niż górna.')
+                    return
+                if filter_type == 3:  # Band-pass filter
+                    indices_to_zero =\
+                        BandPassFilter(low_cut_off_frequency, high_cut_off_frequency).apply(self.dft_frequencies)
+                elif filter_type == 4:  # Band-stop filter
+                    indices_to_zero =\
+                        BandStopFilter(low_cut_off_frequency, high_cut_off_frequency).apply(self.dft_frequencies)
         else:
             controller.print_error('Wybierz filtr')
             return
@@ -375,40 +362,26 @@ class Receiver:
         filter_type = controller.filters_list.currentIndex()
         self.filtered_dct = np.copy(self.dct_data)
         indices_to_zero = []
-
-        if filter_type == 1:  # Low-pass filter
+        if filter_type == 1 or filter_type == 2:
             cut_off_frequency = controller.get_cut_off_frequency()
             if cut_off_frequency is not None:
-                indices_to_zero = np.where(self.dct_frequencies > cut_off_frequency)
-
-        elif filter_type == 2:  # High-pass filter
-            cut_off_frequency = controller.get_cut_off_frequency()
-            if cut_off_frequency is not None:
-                indices_to_zero = np.where(self.dct_frequencies < cut_off_frequency)
-
-        elif filter_type == 3:  # Band-pass filter
+                if filter_type == 1: # Low-pass filter
+                    indices_to_zero = LowPassFilter(cut_off_frequency).apply(self.dct_frequencies)
+                elif filter_type == 2:  # High-pass filter
+                    indices_to_zero = HighPassFilter(cut_off_frequency).apply(self.dct_frequencies)
+        elif filter_type == 3 or filter_type == 4:
             low_cut_off_frequency = controller.get_low_cut_off_frequency()
             high_cut_off_frequency = controller.get_high_cut_off_frequency()
-            if low_cut_off_frequency >= high_cut_off_frequency:
-                controller.print_error('Dolna częstotliwość nie może być większa niż górna.')
-                return
             if low_cut_off_frequency is not None and high_cut_off_frequency is not None:
-                indices_to_zero = (
-                        (self.dct_frequencies < low_cut_off_frequency)
-                        | (self.dct_frequencies > high_cut_off_frequency)
-                )
-
-        elif filter_type == 4:  # Band-stop filter
-            low_cut_off_frequency = controller.get_low_cut_off_frequency()
-            high_cut_off_frequency = controller.get_high_cut_off_frequency()
-            if low_cut_off_frequency >= high_cut_off_frequency:
-                controller.print_error('Dolna częstotliwość nie może być większa niż górna.')
-                return
-            if low_cut_off_frequency is not None and high_cut_off_frequency is not None:
-                indices_to_zero = (
-                        (low_cut_off_frequency < self.dct_frequencies)
-                        & (self.dct_frequencies < high_cut_off_frequency)
-                )
+                if low_cut_off_frequency >= high_cut_off_frequency:
+                    controller.print_error('Dolna częstotliwość nie może być większa niż górna.')
+                    return
+                if filter_type == 3:  # Band-pass filter
+                    indices_to_zero =\
+                        BandPassFilter(low_cut_off_frequency, high_cut_off_frequency).apply(self.dct_frequencies)
+                elif filter_type == 4:  # Band-stop filter
+                    indices_to_zero =\
+                        BandStopFilter(low_cut_off_frequency, high_cut_off_frequency).apply(self.dct_frequencies)
         else:
             controller.print_error('Wybierz filtr')
             return

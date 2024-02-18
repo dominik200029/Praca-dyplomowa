@@ -145,49 +145,7 @@ class SineHandler(SignalsHandler):
         return text
 
 
-class Sine2DHandler(SignalsHandler):
-    """
-    Class for handling two-dimensional sine signals.
-
-    Attributes:
-        signals (list): List to store Sine2D instances.
-        signals_labels (list): List to store labels of Sine2D instances.
-        signal_amount (int): The total number of two-dimensional sine signals.
-
-    Methods:
-        append_signal(signal): Append a Sine2D instance to the list of signals.
-        generate_wave(size): Generate the composite wave from the stored two-dimensional sine signals.
-        generate_wave_from_file(file): Generate wave data from a JPG file using JpgFileHandler.
-    """
-
-    def __init__(self):
-        """
-        Initializes a Sine2DHandler instance.
-        """
-        super().__init__()
-
-    def append_signal(self, signal):
-        """
-        Append a two-dimensional sine signal to the list of signals.
-
-        Parameters:
-            signal : The two-dimensional sine signal instance to be appended.
-        """
-        self.signals.append(signal)
-
-    def generate_wave(self, size):
-        """
-        Generate the composite wave from the stored two-dimensional sine signals.
-
-        Parameters:
-            size (int): Size of the two-dimensional wave.
-
-        Returns:
-            numpy.ndarray: The composite wave generated from the stored two-dimensional sine signals.
-        """
-        # Stub implementation, as generating 2D wave is not yet implemented
-        return
-
+class Sine2DHandler:
     @staticmethod
     def generate_from_file(file):
         """
