@@ -406,6 +406,7 @@ class HandleFileCheckBoxCommand(Command):
         """
         Executes the command to handle the file check box.
         """
+        self.receiver.dft_data = None
         self.receiver.set_main_window_inactive(self.controller.wav_file_check_box_state(), self.controller)
 
 
@@ -622,7 +623,7 @@ class ChangeDFT2DScaleCommand(Command):
     of a 2D DFT plot based on the current state of the receiver.
 
     Attributes:
-            receiver (Receiver): The receiver object responsible for business logic.
+            receiver : The receiver object responsible for business logic.
             controller (Controller): The controller object managing the GUI.
 
     Methods:
@@ -634,7 +635,7 @@ class ChangeDFT2DScaleCommand(Command):
         Initializes the ChangeDFT2DScaleCommand.
 
         Args:
-            receiver (Receiver): The receiver object responsible for business logic.
+            receiver : The receiver object responsible for business logic.
             controller (Controller): The controller object managing the GUI.
         """
         super().__init__(receiver)
@@ -661,7 +662,7 @@ class ChangeDCT2DScaleCommand(Command):
     of a 2D DCT plot based on the current state of the receiver.
 
     Attributes:
-            receiver (Receiver): The receiver object responsible for business logic.
+            receiver : The receiver object responsible for business logic.
             controller (Controller): The controller object managing the GUI.
 
     Methods:
@@ -673,7 +674,7 @@ class ChangeDCT2DScaleCommand(Command):
         Initializes the ChangeDCT2DScaleCommand.
 
         Args:
-            receiver (Receiver): The receiver object responsible for business logic.
+            receiver : The receiver object responsible for business logic.
             controller (Controller): The controller object managing the GUI.
         """
         super().__init__(receiver)

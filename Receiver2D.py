@@ -127,7 +127,7 @@ class Receiver2D(Receiver):
         log_constant = 1e-10  # constant to add in case of logarithmic 0
         if self.dft2 is not None:
             if log_button_state:
-                dft_plot = ImagePlot(np.log(abs(self.dft2) + log_constant),  'Moduł 2D DFT')
+                dft_plot = ImagePlot(np.log(abs(self.dft2) + log_constant), 'Moduł 2D DFT')
             else:
                 dft_plot = ImagePlot(abs(self.dft2), 'Moduł 2D DFT')
             canvas.clear()
@@ -143,26 +143,29 @@ class Receiver2D(Receiver):
 
     def filter_2d_dft(self, controller):
         """Filters the two-dimensional Fourier transform."""
-        filter_type = controller.filters_list.currentIndex()
-        mask = np.zeros_like(self.dft2)
-        row_index = controller.get_column()
-        column_index = controller.get_row()
-        if row_index is not None and column_index is not None:
-            x, y = np.meshgrid(np.arange(mask.shape[0]), np.arange(mask.shape[1]))
-            center_x, center_y = row_index, column_index
-            cut_off_frequency = controller.get_cut_off_spatial()
-            x_cord = x - center_x
-            y_cord = y - center_y
+        if self.dft2 is not None:
+            filter_type = controller.filters_list.currentIndex()
+            mask = np.zeros_like(self.dft2)
+            row_index = controller.get_column()
+            column_index = controller.get_row()
+            if row_index is not None and column_index is not None:
+                x, y = np.meshgrid(np.arange(mask.shape[0]), np.arange(mask.shape[1]))
+                center_x, center_y = row_index, column_index
+                cut_off_frequency = controller.get_cut_off_spatial()
+                x_cord = x - center_x
+                y_cord = y - center_y
 
-            if filter_type == 1:  # Gaussian Low-pass filter
-                mask = LowPassGaussianFilter(x_cord, y_cord, cut_off_frequency).apply()
-            elif filter_type == 2:  # Gaussian High-pass filter
-                mask = HighPassGaussianFilter(x_cord, y_cord, cut_off_frequency).apply()
+                if filter_type == 1:  # Gaussian Low-pass filter
+                    mask = LowPassGaussianFilter(x_cord, y_cord, cut_off_frequency).apply()
+                elif filter_type == 2:  # Gaussian High-pass filter
+                    mask = HighPassGaussianFilter(x_cord, y_cord, cut_off_frequency).apply()
+            else:
+                controller.print_error('Wybierz filtr')
+                return
+
+            self.filtered_dft2 = self.dft2 * mask
         else:
-            controller.print_error('Wybierz filtr')
-            return
-
-        self.filtered_dft2 = self.dft2 * mask
+            controller.print_error('Brak danych')
 
     def plot_filtered_2d_dft(self, canvas, controller):
         """Plots the filtered two-dimensional Fourier transform."""
@@ -185,7 +188,7 @@ class Receiver2D(Receiver):
     def plot_filtered_2d_idft(self, canvas):
         """Plots the filtered inverse two-dimensional Fourier transform."""
         if self.filtered_idft2 is not None:
-            idft_plot = ImagePlot(np.abs(self.filtered_idft2),  'IDFT')
+            idft_plot = ImagePlot(np.abs(self.filtered_idft2), 'IDFT')
 
             canvas.clear()
             idft_plot.create_on_canvas(canvas)
@@ -222,22 +225,25 @@ class Receiver2D(Receiver):
 
     def filter_2d_dct(self, controller):
         """Filters the two-dimensional discrete cosine transform."""
-        filter_type = controller.filters_list.currentIndex()
-        mask = np.zeros_like(self.dct2)
-        row_index = controller.get_column()
-        column_index = controller.get_row()
-        if row_index is not None and column_index is not None:
-            if filter_type == 1:  # Low-pass filter
-                mask[:row_index, :] = 1
-                mask[:, :column_index] = 1
-            elif filter_type == 2:  # High-pass filter
-                mask[row_index:, :] = 1
-                mask[:, column_index:] = 1
-        else:
-            controller.print_error('Wybierz filtr')
-            return
+        if self.dct2 is not None:
+            filter_type = controller.filters_list.currentIndex()
+            mask = np.zeros_like(self.dct2)
+            row_index = controller.get_column()
+            column_index = controller.get_row()
+            if row_index is not None and column_index is not None:
+                if filter_type == 1:  # Low-pass filter
+                    mask[:row_index, :] = 1
+                    mask[:, :column_index] = 1
+                elif filter_type == 2:  # High-pass filter
+                    mask[row_index:, :] = 1
+                    mask[:, column_index:] = 1
+            else:
+                controller.print_error('Wybierz filtr')
+                return
 
-        self.filtered_dct2 = self.dct2 * mask
+            self.filtered_dct2 = self.dct2 * mask
+        else:
+            controller.print_error('Brak danych')
 
     def plot_filtered_2d_dct(self, canvas, controller):
         """Plots the filtered two-dimensional discrete cosine transform."""

@@ -322,35 +322,39 @@ class Receiver:
         filter_type = controller.filters_list.currentIndex()
         self.filtered_dft = np.copy(self.dft_data)
         indices_to_zero = []
-        if filter_type == 1 or filter_type == 2:
-            cut_off_frequency = controller.get_cut_off_frequency()
-            if cut_off_frequency is not None:
-                if filter_type == 1:  # Low-pass filter
-                    indices_to_zero = LowPassFilter(cut_off_frequency).apply(self.dft_frequencies)
-                elif filter_type == 2:  # High-pass filter
-                    indices_to_zero = HighPassFilter(cut_off_frequency).apply(self.dft_frequencies)
-        elif filter_type == 3 or filter_type == 4:
-            low_cut_off_frequency = controller.get_low_cut_off_frequency()
-            high_cut_off_frequency = controller.get_high_cut_off_frequency()
-            if low_cut_off_frequency is not None and high_cut_off_frequency is not None:
-                if low_cut_off_frequency >= high_cut_off_frequency:
-                    controller.print_error('Dolna częstotliwość nie może być większa niż górna.')
-                    return
-                if filter_type == 3:  # Band-pass filter
-                    indices_to_zero =\
-                        BandPassFilter(low_cut_off_frequency, high_cut_off_frequency).apply(self.dft_frequencies)
-                elif filter_type == 4:  # Band-stop filter
-                    indices_to_zero =\
-                        BandStopFilter(low_cut_off_frequency, high_cut_off_frequency).apply(self.dft_frequencies)
+        if self.dft_frequencies is not None:
+            if filter_type == 1 or filter_type == 2:
+                cut_off_frequency = controller.get_cut_off_frequency()
+                if cut_off_frequency is not None:
+                    if filter_type == 1:  # Low-pass filter
+                        indices_to_zero = LowPassFilter(cut_off_frequency).apply(self.dft_frequencies)
+                    elif filter_type == 2:  # High-pass filter
+                        indices_to_zero = HighPassFilter(cut_off_frequency).apply(self.dft_frequencies)
+            elif filter_type == 3 or filter_type == 4:
+                low_cut_off_frequency = controller.get_low_cut_off_frequency()
+                high_cut_off_frequency = controller.get_high_cut_off_frequency()
+                if low_cut_off_frequency is not None and high_cut_off_frequency is not None:
+                    if low_cut_off_frequency >= high_cut_off_frequency:
+                        controller.print_error('Dolna częstotliwość nie może być większa niż górna.')
+                        return
+                    if filter_type == 3:  # Band-pass filter
+                        indices_to_zero = \
+                            BandPassFilter(low_cut_off_frequency, high_cut_off_frequency).apply(self.dft_frequencies)
+                    elif filter_type == 4:  # Band-stop filter
+                        indices_to_zero = \
+                            BandStopFilter(low_cut_off_frequency, high_cut_off_frequency).apply(self.dft_frequencies)
+            else:
+                controller.print_error('Wybierz filtr')
+                return
+            self.filtered_dft[indices_to_zero] = 0
         else:
-            controller.print_error('Wybierz filtr')
+            controller.print_error('Brak danych')
             return
-
-        self.filtered_dft[indices_to_zero] = 0
 
     def filter_idft(self):
         """Apply filtering to the inverse discrete Fourier transform data."""
-        self.filtered_idft = IFFTAnalyzer(self.filtered_dft).calculate()
+        if self.filtered_dft is not None and np.ndim(self.filtered_dft) != 0:
+            self.filtered_idft = IFFTAnalyzer(self.filtered_dft).calculate()
 
     def filter_dct(self, controller):
         """
@@ -362,35 +366,39 @@ class Receiver:
         filter_type = controller.filters_list.currentIndex()
         self.filtered_dct = np.copy(self.dct_data)
         indices_to_zero = []
-        if filter_type == 1 or filter_type == 2:
-            cut_off_frequency = controller.get_cut_off_frequency()
-            if cut_off_frequency is not None:
-                if filter_type == 1: # Low-pass filter
-                    indices_to_zero = LowPassFilter(cut_off_frequency).apply(self.dct_frequencies)
-                elif filter_type == 2:  # High-pass filter
-                    indices_to_zero = HighPassFilter(cut_off_frequency).apply(self.dct_frequencies)
-        elif filter_type == 3 or filter_type == 4:
-            low_cut_off_frequency = controller.get_low_cut_off_frequency()
-            high_cut_off_frequency = controller.get_high_cut_off_frequency()
-            if low_cut_off_frequency is not None and high_cut_off_frequency is not None:
-                if low_cut_off_frequency >= high_cut_off_frequency:
-                    controller.print_error('Dolna częstotliwość nie może być większa niż górna.')
-                    return
-                if filter_type == 3:  # Band-pass filter
-                    indices_to_zero =\
-                        BandPassFilter(low_cut_off_frequency, high_cut_off_frequency).apply(self.dct_frequencies)
-                elif filter_type == 4:  # Band-stop filter
-                    indices_to_zero =\
-                        BandStopFilter(low_cut_off_frequency, high_cut_off_frequency).apply(self.dct_frequencies)
+        if self.dct_frequencies is not None:
+            if filter_type == 1 or filter_type == 2:
+                cut_off_frequency = controller.get_cut_off_frequency()
+                if cut_off_frequency is not None:
+                    if filter_type == 1:  # Low-pass filter
+                        indices_to_zero = LowPassFilter(cut_off_frequency).apply(self.dct_frequencies)
+                    elif filter_type == 2:  # High-pass filter
+                        indices_to_zero = HighPassFilter(cut_off_frequency).apply(self.dct_frequencies)
+            elif filter_type == 3 or filter_type == 4:
+                low_cut_off_frequency = controller.get_low_cut_off_frequency()
+                high_cut_off_frequency = controller.get_high_cut_off_frequency()
+                if low_cut_off_frequency is not None and high_cut_off_frequency is not None:
+                    if low_cut_off_frequency >= high_cut_off_frequency:
+                        controller.print_error('Dolna częstotliwość nie może być większa niż górna.')
+                        return
+                    if filter_type == 3:  # Band-pass filter
+                        indices_to_zero = \
+                            BandPassFilter(low_cut_off_frequency, high_cut_off_frequency).apply(self.dct_frequencies)
+                    elif filter_type == 4:  # Band-stop filter
+                        indices_to_zero = \
+                            BandStopFilter(low_cut_off_frequency, high_cut_off_frequency).apply(self.dct_frequencies)
+            else:
+                controller.print_error('Wybierz filtr')
+                return
         else:
-            controller.print_error('Wybierz filtr')
+            controller.print_error('Brak danych')
             return
-
         self.filtered_dct[indices_to_zero] = 0
 
     def filter_idct(self):
         """Apply filtering to the inverse discrete cosine transform data."""
-        self.filtered_idct = IDCTAnalyzer(self.filtered_dct).calculate()
+        if self.filtered_dct is not None and np.ndim(self.filtered_dct) != 0:
+            self.filtered_idct = IDCTAnalyzer(self.filtered_dct).calculate()
 
     def filtered_dft_plot(self, canvas):
         """
@@ -399,14 +407,19 @@ class Receiver:
         Parameters:
             canvas: The canvas to draw on.
         """
-        if self.is_signal_from_file:
-            dft_plot = Plot(self.dft_frequencies, np.abs(self.filtered_dft), 'Częstotliwość[Hz]', 'Amplituda',
-                            'Moduł DFT')
-        else:
-            dft_plot = StemPlot(self.dft_frequencies, np.abs(self.filtered_dft), 'Częstotliwość[Hz]', 'Amplituda',
-                                'Moduł DFT')
-        canvas.clear()
-        dft_plot.create_on_canvas(canvas)
+        if self.dft_frequencies is not None and self.filtered_dft is not None:
+            if self.is_signal_from_file:
+                if self.wav_filepath is None:
+                    Window.plot_warning(canvas)
+                    return
+                else:
+                    dft_plot = Plot(self.dft_frequencies, np.abs(self.filtered_dft), 'Częstotliwość[Hz]', 'Amplituda',
+                                    'Moduł DFT')
+            else:
+                dft_plot = StemPlot(self.dft_frequencies, np.abs(self.filtered_dft), 'Częstotliwość[Hz]', 'Amplituda',
+                                    'Moduł DFT')
+            canvas.clear()
+            dft_plot.create_on_canvas(canvas)
 
     def filtered_idft_plot(self, canvas):
         """
@@ -415,13 +428,18 @@ class Receiver:
         Parameters:
             canvas: The canvas to draw on.
         """
-        if self.is_signal_from_file:
-            idft_plot = Plot(None, np.real(self.filtered_dft), 'Czas[s]', 'Amplituda', 'IDFT')
-        else:
-            idft_plot = StemPlot(self.discrete_time_axis, np.real(self.filtered_idft), 'Czas[s]', 'Amplituda',
-                                 'IDFT')
-        canvas.clear()
-        idft_plot.create_on_canvas(canvas)
+        if self.filtered_idft is not None:
+            if self.is_signal_from_file:
+                if self.wav_filepath is None:
+                    Window.plot_warning(canvas)
+                    return
+                else:
+                    idft_plot = Plot(None, np.real(self.filtered_idft), 'Czas[s]', 'Amplituda', 'IDFT')
+            else:
+                idft_plot = StemPlot(self.discrete_time_axis, np.real(self.filtered_idft), 'Czas[s]', 'Amplituda',
+                                     'IDFT')
+            canvas.clear()
+            idft_plot.create_on_canvas(canvas)
 
     def filtered_dct_plot(self, canvas):
         """
@@ -430,14 +448,19 @@ class Receiver:
         Parameters:
             canvas: The canvas to draw on.
         """
-        if self.is_signal_from_file:
-            dct_plot = Plot(self.dct_frequencies, np.abs(self.filtered_dct), 'Częstotliwość[Hz]', 'Amplituda',
-                            'Moduł DCT')
-        else:
-            dct_plot = StemPlot(self.dct_frequencies, np.abs(self.filtered_dct), 'Częstotliwość[Hz]', 'Amplituda',
-                                'Moduł DCT')
-        canvas.clear()
-        dct_plot.create_on_canvas(canvas)
+        if self.dct_frequencies is not None and self.filtered_dct is not None:
+            if self.is_signal_from_file:
+                if self.wav_filepath is None:
+                    Window.plot_warning(canvas)
+                    return
+                else:
+                    dct_plot = Plot(self.dct_frequencies, np.abs(self.filtered_dct), 'Częstotliwość[Hz]', 'Amplituda',
+                                    'Moduł DCT')
+            else:
+                dct_plot = StemPlot(self.dct_frequencies, np.abs(self.filtered_dct), 'Częstotliwość[Hz]', 'Amplituda',
+                                    'Moduł DCT')
+            canvas.clear()
+            dct_plot.create_on_canvas(canvas)
 
     def filtered_idct_plot(self, canvas):
         """
@@ -446,12 +469,18 @@ class Receiver:
         Parameters:
             canvas: The canvas to draw on.
         """
-        if self.is_signal_from_file:
-            idct_plot = Plot(None, np.real(self.filtered_idct), 'Czas[s]', 'Amplituda', 'IDCT')
-        else:
-            idct_plot = StemPlot(self.discrete_time_axis, np.real(self.filtered_idct), 'Czas[s]', 'Amplituda', 'IDCT')
-        canvas.clear()
-        idct_plot.create_on_canvas(canvas)
+        if self.filtered_idct is not None:
+            if self.is_signal_from_file:
+                if self.wav_filepath is None:
+                    Window.plot_warning(canvas)
+                    return
+                else:
+                    idct_plot = Plot(None, np.real(self.filtered_idct), 'Czas[s]', 'Amplituda', 'IDCT')
+            else:
+                idct_plot = StemPlot(self.discrete_time_axis, np.real(self.filtered_idct), 'Czas[s]', 'Amplituda',
+                                     'IDCT')
+            canvas.clear()
+            idct_plot.create_on_canvas(canvas)
 
     @staticmethod
     def delete_signal(signals_handler, controller):
@@ -566,7 +595,6 @@ class Receiver:
             controller.add_button.setDisabled(True)
             controller.delete_signal_button.setDisabled(True)
             controller.signal_number_checkBox.setDisabled(True)
-
         else:
             self.is_signal_from_file = False
             self.wave_from_file = None
